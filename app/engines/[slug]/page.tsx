@@ -58,7 +58,6 @@ export default async function EnginePage({
   return (
     <>
       <section className="relative border-b border-border bg-background">
-        <div aria-hidden className="subtle-grid pointer-events-none absolute inset-0" />
         <div className="relative mx-auto max-w-5xl px-4 pt-16 pb-12 md:pb-16">
           <p className="text-sm text-ink-3">
             <Link href="/" className="transition-colors hover:text-foreground">

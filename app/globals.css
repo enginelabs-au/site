@@ -200,8 +200,6 @@
   --sidebar-border: var(--rule);
   --sidebar-ring: var(--brand);
 
-  --grid-dot: rgba(31, 35, 40, 0.08);
-
   /* Homepage bands — light / dark / light / dark / light / lift */
   --section-brief-bg: #24292f;
   --section-brief-fg: #ffffff;
@@ -315,8 +313,6 @@
   --sidebar-accent-foreground: var(--ink);
   --sidebar-border: var(--rule);
   --sidebar-ring: var(--brand);
-
-  --grid-dot: rgba(230, 231, 225, 0.06);
 
   --section-brief-bg: #21262d;
   --section-brief-fg: #e6edf3;
@@ -475,14 +471,6 @@
 }
 .eyebrow-brand { color: var(--brand); }
 .eyebrow-on-inverse { color: var(--paper-inverse-fg-muted); }
-
-/* Subtle dotted grid — splash hint, used very sparingly. */
-.subtle-grid {
-  background-image:
-    radial-gradient(circle, var(--grid-dot) 1px, transparent 1px);
-  background-size: 28px 28px;
-  background-position: 0 0;
-}
 
 /* Logo PNG treatment.
    Source is a transparent navy outline. In light mode it sits as-is. In dark

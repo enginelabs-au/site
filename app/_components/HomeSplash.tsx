@@ -8,7 +8,7 @@ export default function HomeSplash() {
   return (
     <section
       id="top"
-      className="subtle-grid relative flex min-h-[calc(100svh-3.5rem)] flex-col items-center justify-center border-b border-border bg-background px-4"
+      className="relative flex min-h-[calc(100svh-3.5rem)] flex-col items-center justify-center border-b border-border bg-background px-4"
       aria-label="Engine Labs"
     >
       <div className="flex flex-col items-center gap-12 py-12 text-center text-foreground md:gap-16 md:py-16">

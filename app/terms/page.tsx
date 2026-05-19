@@ -11,7 +11,6 @@ export default function TermsPage() {
   return (
     <>
       <section className="relative border-b border-border bg-background">
-        <div aria-hidden className="subtle-grid pointer-events-none absolute inset-0" />
         <div className="relative mx-auto max-w-3xl px-4 pt-20 pb-16 md:pt-28 md:pb-20">
           <p className="eyebrow">Terms</p>
           <h1 className="mt-4 text-balance text-[2.5rem] font-medium leading-[1.05] tracking-tight text-foreground md:text-[4rem]">
