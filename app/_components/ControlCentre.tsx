@@ -20,7 +20,10 @@ import {
   isValidVisitorName,
   normalizeVisitorEmail,
   normalizeVisitorName,
+  parseContactIntakeHeuristic,
+  resolveContactIntakeStep,
   stripContactIntakeFromTranscript,
+  type ContactIntakeStep,
 } from "@/app/_lib/recommender/contact-intake";
 import type { RecommendationResponse } from "@/app/_lib/recommender/types";
 
@@ -155,8 +158,12 @@ export default function ControlCentre({
         recommendationMarkdown: "",
         emailSubject: "Website enquiry — Engine Labs",
         emailBody: "",
-        visitorName: visitorName.trim(),
-        visitorEmail: visitorEmail.trim(),
+        visitorName: isValidVisitorName(visitorName)
+          ? normalizeVisitorName(visitorName)
+          : "",
+        visitorEmail: isValidVisitorEmail(visitorEmail)
+          ? normalizeVisitorEmail(visitorEmail)
+          : "",
         surface: surface ?? variant,
       });
       scrollToContactForm();
@@ -296,79 +303,115 @@ export default function ControlCentre({
       setError(null);
       scrollToBottom();
 
-      try {
-        const parseRes = await fetch("/api/briefs/parse-contact", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            rawText: trimmed,
-            intakeStep: contactIntakeStep === "email" ? "email_only" : "initial",
-            knownName: contactIntakeStep === "email" ? visitorName : undefined,
-          }),
-        });
-        const parsed = (await parseRes.json()) as {
-          ok?: boolean;
-          visitorName?: string;
-          visitorEmail?: string;
-          nextStep?: "name" | "email" | "complete";
-          ready?: boolean;
-          message?: string;
-          error?: string;
-        };
+      const intakeStep: ContactIntakeStep =
+        contactIntakeStep === "email" ? "email_only" : "name_only";
+      const knownName =
+        contactIntakeStep === "email" && isValidVisitorName(visitorName)
+          ? normalizeVisitorName(visitorName)
+          : undefined;
 
-        if (parseRes.status === 429) {
-          setStatus("cap_reached");
-          setConversationDone(true);
-          setError(parsed.message ?? CAP_REACHED_MESSAGE);
+      try {
+        let resolved = resolveContactIntakeStep({
+          intakeStep,
+          ...parseContactIntakeHeuristic(trimmed, knownName),
+          knownName,
+        });
+
+        const needsApi =
+          (intakeStep === "name_only" && !resolved.visitorName) ||
+          (intakeStep === "email_only" && !resolved.visitorEmail);
+
+        if (needsApi) {
+          const parseRes = await fetch("/api/briefs/parse-contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              rawText: trimmed,
+              intakeStep,
+              knownName,
+            }),
+          });
+          const parsed = (await parseRes.json()) as {
+            ok?: boolean;
+            visitorName?: string;
+            visitorEmail?: string;
+            nextStep?: "name" | "email" | "complete";
+            ready?: boolean;
+            message?: string;
+            error?: string;
+          };
+
+          if (parseRes.status === 429) {
+            setStatus("cap_reached");
+            setConversationDone(true);
+            setError(parsed.message ?? CAP_REACHED_MESSAGE);
+            return;
+          }
+
+          if (!parseRes.ok || !parsed.ok) {
+            throw new Error(parsed.message ?? "Could not read your name or email.");
+          }
+
+          resolved = {
+            visitorName: parsed.visitorName?.trim()
+              ? normalizeVisitorName(parsed.visitorName)
+              : "",
+            visitorEmail: parsed.visitorEmail?.trim()
+              ? normalizeVisitorEmail(parsed.visitorEmail)
+              : "",
+            nextStep: parsed.nextStep ?? "name",
+            ready: Boolean(parsed.ready),
+          };
+        }
+
+        if (contactIntakeStep === "name") {
+          if (resolved.nextStep === "email" && resolved.visitorName) {
+            setVisitorName(resolved.visitorName);
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: crypto.randomUUID(),
+                role: "assistant",
+                content: contactIntakeAskEmail(resolved.visitorName),
+              },
+            ]);
+            setContactIntakeStep("email");
+            setStatus("idle");
+            scrollToBottom();
+            return;
+          }
+          setStatus("idle");
+          setError("Please enter your name (e.g. Cam Douglas).");
           return;
         }
 
-        if (!parseRes.ok || !parsed.ok) {
-          throw new Error(parsed.message ?? "Could not read your name or email.");
-        }
-
-        const parsedName = parsed.visitorName?.trim()
-          ? normalizeVisitorName(parsed.visitorName)
-          : "";
-        const parsedEmail = parsed.visitorEmail?.trim()
-          ? normalizeVisitorEmail(parsed.visitorEmail)
-          : "";
-
-        if (parsed.ready && parsedName && parsedEmail) {
-          setVisitorName(parsedName);
-          setVisitorEmail(parsedEmail);
+        if (resolved.ready && resolved.visitorEmail) {
+          const finalName =
+            resolved.visitorName ||
+            (isValidVisitorName(visitorName) ? normalizeVisitorName(visitorName) : "");
+          const finalEmail = resolved.visitorEmail;
+          if (!finalName) {
+            setStatus("idle");
+            setError("Please enter your name first.");
+            setContactIntakeStep("name");
+            return;
+          }
+          setVisitorName(finalName);
+          setVisitorEmail(finalEmail);
           setContactIntakeStep("none");
-          nameForApi = parsedName;
-          emailForApi = parsedEmail;
+          nameForApi = finalName;
+          emailForApi = finalEmail;
           finalizeBrief = true;
           setMessages((prev) =>
             prev.filter(
               (m) =>
                 m.role === "assistant" ||
-                !isContactIntakeUserMessage(m.content, parsedName, parsedEmail),
+                !isContactIntakeUserMessage(m.content, finalName, finalEmail),
             ),
           );
-        } else if (parsed.nextStep === "email" && parsedName) {
-          setVisitorName(parsedName);
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: crypto.randomUUID(),
-              role: "assistant",
-              content: contactIntakeAskEmail(parsedName),
-            },
-          ]);
-          setContactIntakeStep("email");
-          setStatus("idle");
-          scrollToBottom();
-          return;
         } else {
           setStatus("idle");
-          setError(
-            contactIntakeStep === "email"
-              ? "Please enter a valid contact email."
-              : "Please include your name and email (e.g. Cam Douglas cam@company.com.au).",
-          );
+          setError("Please enter a valid email address (e.g. you@company.com.au).");
           return;
         }
       } catch (err) {
@@ -478,8 +521,14 @@ export default function ControlCentre({
         if (data.handoff) {
           const handoffName = data.handoff.visitorName ?? nameForApi;
           const handoffEmail = data.handoff.visitorEmail ?? emailForApi;
-          if (handoffName) setVisitorName(handoffName);
-          if (handoffEmail) setVisitorEmail(handoffEmail);
+          const normalizedName = handoffName
+            ? normalizeVisitorName(handoffName)
+            : "";
+          const normalizedEmail = handoffEmail
+            ? normalizeVisitorEmail(handoffEmail)
+            : "";
+          if (normalizedName) setVisitorName(normalizedName);
+          if (normalizedEmail) setVisitorEmail(normalizedEmail);
           saveBriefHandoff({
             mode: "brief",
             createdAt: new Date().toISOString(),
@@ -487,8 +536,8 @@ export default function ControlCentre({
             recommendationMarkdown: data.handoff.recommendationMarkdown,
             emailSubject: data.handoff.subject,
             emailBody: data.handoff.body,
-            visitorName: handoffName,
-            visitorEmail: handoffEmail,
+            visitorName: normalizedName || handoffName,
+            visitorEmail: normalizedEmail || handoffEmail,
             surface: surface ?? variant,
           });
           setHasHandoff(true);
@@ -657,9 +706,9 @@ export default function ControlCentre({
               }}
               placeholder={
                 contactIntakeStep === "name"
-                  ? "Your name"
+                  ? "e.g. Cam Douglas"
                   : contactIntakeStep === "email"
-                    ? "you@company.com.au"
+                    ? "e.g. you@company.com.au"
                     : "Message…"
               }
               maxLength={600}

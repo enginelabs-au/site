@@ -3,7 +3,7 @@
 import type { ChatMessage } from "@/app/_lib/recommender/types";
 
 export const CONTACT_INTAKE_ASK_NAME =
-  "Before we generate a brief, can you please provide your name and contact email? This information will only be stored in our email thread.";
+  "Before we generate your brief, what is your name? We only use it for your email thread with us.";
 
 export const CONTACT_INTAKE_ASK_EMAIL_ONLY =
   "Thanks. What is your contact email?";
@@ -98,10 +98,56 @@ export function parseVisitorContactFields(payload: Record<string, unknown>): {
   return { visitorName, visitorEmail };
 }
 
+export type ContactIntakeStep = "name_only" | "email_only";
+
 export type ParsedContactIntake = {
   visitorName: string;
   visitorEmail: string;
 };
+
+/** Enforce two-step intake: name first, then email. */
+export function resolveContactIntakeStep(params: {
+  intakeStep: ContactIntakeStep;
+  visitorName: string;
+  visitorEmail: string;
+  knownName?: string;
+}): {
+  visitorName: string;
+  visitorEmail: string;
+  nextStep: "name" | "email" | "complete";
+  ready: boolean;
+} {
+  const name = isValidVisitorName(params.visitorName)
+    ? normalizeVisitorName(params.visitorName)
+    : "";
+  const email = isValidVisitorEmail(params.visitorEmail)
+    ? normalizeVisitorEmail(params.visitorEmail)
+    : "";
+  const known = params.knownName?.trim()
+    ? normalizeVisitorName(params.knownName)
+    : "";
+  const knownValid = isValidVisitorName(known);
+
+  if (params.intakeStep === "name_only") {
+    return {
+      visitorName: name,
+      visitorEmail: "",
+      nextStep: name ? "email" : "name",
+      ready: false,
+    };
+  }
+
+  const resolvedName = knownValid ? known : name;
+  const hasName = isValidVisitorName(resolvedName);
+  const hasEmail = Boolean(email);
+
+  return {
+    visitorName: hasName ? resolvedName : "",
+    visitorEmail: hasEmail ? email : "",
+    nextStep: hasName && hasEmail ? "complete" : hasEmail ? "name" : "email",
+    ready: hasName && hasEmail,
+  };
+}
 
 /** Cheap regex + normalisation — no model call. */
 export function parseContactIntakeHeuristic(
@@ -127,7 +173,7 @@ export function parseContactIntakeHeuristic(
 /** Use the model only when heuristic parsing is ambiguous or incomplete. */
 export function shouldUseLlmForContactParse(
   rawText: string,
-  intakeStep: "initial" | "email_only",
+  intakeStep: ContactIntakeStep,
   heuristic: ParsedContactIntake,
 ): boolean {
   const trimmed = rawText.trim();
@@ -136,6 +182,10 @@ export function shouldUseLlmForContactParse(
 
   if (intakeStep === "email_only") {
     return !heuristic.visitorEmail;
+  }
+
+  if (intakeStep === "name_only") {
+    return !heuristic.visitorName;
   }
 
   const { visitorName, visitorEmail } = heuristic;

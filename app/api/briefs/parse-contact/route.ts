@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import { isRecommenderConfigured, recommenderConfig } from "@/app/_lib/recommender/config";
 import {
   finalizeParsedContact,
-  isValidVisitorEmail,
   isValidVisitorName,
   normalizeVisitorName,
+  resolveContactIntakeStep,
+  type ContactIntakeStep,
 } from "@/app/_lib/recommender/contact-intake";
 import { parseContactIntakeWithLlm } from "@/app/_lib/recommender/parse-contact-intake";
 import { attachUserCookie, getOrCreateUserId } from "@/app/_lib/recommender/session";
@@ -53,7 +54,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "rawText is required." }, { status: 400 });
   }
 
-  const step = intakeStep === "email_only" ? "email_only" : "initial";
+  const step: ContactIntakeStep =
+    intakeStep === "email_only" ? "email_only" : "name_only";
   const known =
     typeof knownName === "string" && isValidVisitorName(knownName)
       ? normalizeVisitorName(knownName)
@@ -73,26 +75,21 @@ export async function POST(req: Request) {
     } catch (usageErr) {
       console.warn("[briefs/parse-contact] usage write failed", usageErr);
     }
-    const { visitorName, visitorEmail } = finalizeParsedContact(
-      result.parsed,
-      known,
-    );
-
-    const hasName = isValidVisitorName(visitorName);
-    const hasEmail = isValidVisitorEmail(visitorEmail);
-
-    let nextStep: "name" | "email" | "complete" = "name";
-    if (hasName && hasEmail) nextStep = "complete";
-    else if (step === "email_only" && known && hasEmail) nextStep = "complete";
-    else if (hasName) nextStep = "email";
+    const finalized = finalizeParsedContact(result.parsed, known);
+    const resolved = resolveContactIntakeStep({
+      intakeStep: step,
+      visitorName: finalized.visitorName,
+      visitorEmail: finalized.visitorEmail,
+      knownName: known,
+    });
 
     return attachUserCookie(
       NextResponse.json({
         ok: true,
-        visitorName: hasName ? visitorName : "",
-        visitorEmail: hasEmail ? visitorEmail : "",
-        nextStep,
-        ready: nextStep === "complete",
+        visitorName: resolved.visitorName,
+        visitorEmail: resolved.visitorEmail,
+        nextStep: resolved.nextStep,
+        ready: resolved.ready,
         budgetRemainingUsd: remainingBudgetUsd(updatedUsage),
       }),
       userId,

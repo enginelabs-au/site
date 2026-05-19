@@ -3,6 +3,7 @@ import {
   finalizeParsedContact,
   parseContactIntakeHeuristic,
   shouldUseLlmForContactParse,
+  type ContactIntakeStep,
   type ParsedContactIntake,
 } from "@/app/_lib/recommender/contact-intake";
 import { extractJsonObject } from "@/app/_lib/recommender/parse";
@@ -23,11 +24,14 @@ Rules:
 
 function buildUserMessage(params: {
   rawText: string;
-  intakeStep: "initial" | "email_only";
+  intakeStep: ContactIntakeStep;
   knownName?: string;
 }): string {
   if (params.intakeStep === "email_only" && params.knownName?.trim()) {
-    return `Known name (already collected): ${params.knownName.trim()}\nVisitor reply (extract email; keep known name): ${params.rawText.trim()}`;
+    return `Known name (already collected): ${params.knownName.trim()}\nVisitor reply (extract email only): ${params.rawText.trim()}`;
+  }
+  if (params.intakeStep === "name_only") {
+    return `Visitor reply (extract name only; ignore any email): ${params.rawText.trim()}`;
   }
   return `Visitor reply (extract name and/or email): ${params.rawText.trim()}`;
 }
@@ -50,7 +54,7 @@ export function parseContactIntakeFallback(
 
 export async function parseContactIntakeWithLlm(params: {
   rawText: string;
-  intakeStep: "initial" | "email_only";
+  intakeStep: ContactIntakeStep;
   knownName?: string;
   userId: string;
 }): Promise<{
