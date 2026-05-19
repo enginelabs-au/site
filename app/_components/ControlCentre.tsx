@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowUp, RotateCcw, Send } from "lucide-react";
 import BriefMarkdown from "@/app/_components/BriefMarkdown";
 import {
   clearBriefHandoff,
+  loadBriefHandoff,
   notifyBriefHandoffReady,
   saveBriefHandoff,
 } from "@/app/_lib/brief-handoff";
@@ -87,9 +89,11 @@ export default function ControlCentre({
   const rootRef = useRef<HTMLDivElement>(null);
   const introStartedRef = useRef(false);
 
+  const pathname = usePathname();
   const presets = presetPrompts ?? (variant === "hero" ? HERO_PRESETS : []);
   const isWidget = variant === "nexus";
-  const contactSendHref = isWidget ? "/#send" : "/contact#send";
+  /** Homepage widget scrolls to #send; other routes use the contact page. */
+  const contactSendHref = pathname === "/" && isWidget ? "/#send" : "/contact#send";
   const showSendBriefCta = conversationDone && hasHandoff;
 
   function hasCollectedContact(): boolean {
@@ -99,13 +103,26 @@ export default function ControlCentre({
   function scrollToContactForm() {
     notifyBriefHandoffReady();
     if (contactSendHref.startsWith("/#")) {
-      requestAnimationFrame(() => scrollToContactSend("smooth"));
+      if (window.location.pathname === "/") {
+        window.history.pushState(null, "", "#send");
+      }
+      const scroll = () => scrollToContactSend("smooth");
+      requestAnimationFrame(scroll);
+      window.setTimeout(scroll, 120);
     } else {
       window.location.assign(contactSendHref);
     }
   }
 
   function openContactHandoff(mode: BriefHandoffMode) {
+    if (mode === "brief") {
+      const existing = loadBriefHandoff();
+      if (existing) {
+        saveBriefHandoff({ ...existing, mode: "brief" });
+      }
+      scrollToContactForm();
+      return;
+    }
     if (mode === "blank") {
       saveBriefHandoff({
         mode: "blank",
@@ -138,7 +155,6 @@ export default function ControlCentre({
       scrollToContactForm();
       return;
     }
-    scrollToContactForm();
   }
 
   function playIntroAnimation(text: string) {
