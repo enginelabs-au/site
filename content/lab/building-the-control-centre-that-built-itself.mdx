@@ -1,0 +1,96 @@
+## The brief
+
+Engine Labs sells agentic systems that replace repeatable operational work. The positioning only works if the *first thing a visitor touches* behaves like the product — not a contact form, not a Calendly link, not a deck.
+
+So this site had to ship with a working **Control Centre**: type a problem, get clarifying questions, get an Engine recommendation and a draft scope band. The marketing site and the demo are the same artefact.
+
+**Constraints I set for myself:** one continuous build session, under 24 hours wall-clock, under **A$50** cash outlay (API usage + hosting — not counting tools I already pay for monthly).
+
+This post is the case study for **this repo** — the site you are reading.
+
+## What shipped
+
+A full marketing surface on **Next.js 16** (App Router), **TypeScript**, **Tailwind CSS v4**, and **MDX** for long-form Engine specs and Lab posts.
+
+### Pages
+
+- **[`/`](/)** — Homepage with the live Control Centre widget, Engine catalog, methodology band, and pricing CTA.
+- **[`/control-centre`](/control-centre)** — Full-page Control Centre with `?engine=` and `?vertical=` prefilled briefs.
+- **[`/engines`](/engines)** and **`/engines/[slug]`** — Eight Engine pages with spec bands, pricing, and related Engines.
+- **[`/verticals`](/verticals)** and **`/verticals/[slug]`** — Six vertical landings with recommended stacks.
+- **[`/methodology`](/methodology)** — Build → Run loop and artefact descriptions.
+- **[`/pricing`](/pricing)**, **[`/faq`](/faq)**, **[`/about`](/about)**, **[`/what-we-dont-do`](/what-we-dont-do)** — Trust and conversion support.
+- **[`/contact`](/contact)** — Brief handoff and email via Resend.
+- **[`/lab`](/lab)** — Build log (you are here).
+
+### APIs (same sprint)
+
+- **`POST /api/briefs/chat`** — OpenRouter recommender (Claude Opus 4.7 by default), clarify/recommend JSON, per-browser session spend cap.
+- **`POST /api/briefs`** — Persists briefs and recommendation payloads locally.
+- **`POST /api/contact`** — Resend to `hello@enginelabs.com.au` with a local inbox backup.
+
+The Control Centre is not a mock. Submit a real brief on the [homepage](/) or [Control Centre](/control-centre) and you get a scoped conversation ending in a structured recommendation — the same class of agent I would deploy for a client Sales or Ops Engine.
+
+## How it was built (honest order)
+
+1. **Contracts first.** The MSA, Addendum and Pricing Schedule were already written. Every page line that sounds like a promise traces back to a clause — including what the Centre is allowed to decline.
+2. **Product shape.** Eight Engines, six verticals, Lane C positioning (“stop hiring for repeatable work”). Strategy docs and the live site share one source of product facts so copy does not drift.
+3. **IA + copy.** Page structure locked before build. Engine pages use shared spec sections so eight long breakdowns stay consistent without eight one-off layouts.
+4. **Control Centre.** Recommender prompt written and wired to the API first, then the homepage widget and the dedicated Control Centre page, with deep-links that prefill a brief when you arrive from an Engine or vertical.
+5. **Polish pass.** Developer-inspired palette, dark mode, motion with reduced-motion support, scroll progress, footer consolidation — all in the same push.
+
+Most of the typing was me directing; most of the keystrokes were Cursor agents running against this monorepo. That is intentional — it is the same delivery model I sell.
+
+## Stack (and why)
+
+- **Next.js 16 + MDX** — static Engine pages, one dynamic recommender API, easy Vercel deploy
+- **Tailwind v4 + shadcn** — fast iteration on section bands without a design system committee
+- **OpenRouter** — model routing without locking to one vendor; Opus 4.7 for quality on scope conversations
+- **Resend** — transactional email for contact and brief handoff
+- **Vercel** — hobby-tier deploy ($0 at launch scale)
+- **Local `.data/` stores** — briefs and usage counters on disk during dev; git-ignored
+
+No Supabase, no Stripe, no authenticated client portal in this sprint — those are real Week-2+ product surfaces, not blockers for proving the Centre on a marketing site.
+
+## Time and money
+
+- **Wall-clock build** — ~22 hours (one session, a short break, then ship).
+- **OpenRouter** (dev + smoke tests) — ~A$35.
+- **Vercel** — A$0 on the hobby tier.
+- **Domain / DNS** — already owned.
+- **Total cash for this ship** — under **A$50**.
+
+The A$50 cap forced discipline: no bespoke CMS, no multi-environment staging theatre, no animation rabbit holes. Every hour had to move a route from “missing” to “live.”
+
+## Decisions that mattered
+
+1. **Centre as hero, not contact form.** If the pitch is agentic, the first interaction must be agentic. Everything else is supporting evidence.
+2. **Eight Engines, routed by the Centre.** Broad menu, narrow conversation — the recommender picks fit, not the visitor.
+3. **Boundaries as copy.** `/what-we-dont-do`, contract-aligned FAQs, and a decline path in the recommender. Senior buyers close faster when you show what you will not do.
+4. **MDX spec components.** Engine pages are data-heavy; components prevent eight one-off layouts.
+5. **Dogfooding the build.** This site is Founder Engine work productised as marketing — prototype-speed delivery with a documented handover (this Lab, the repo README, the recommender prompt in-tree).
+
+## What is still open
+
+Being precise beats pretending everything is finished:
+
+- **Methodology PDF downloads** on `/methodology` are still placeholder cards — the descriptions are real; the files are not attached yet.
+- **Draft SOW PDF export** from the Centre — recommendation JSON exists; PDF generation does not.
+- **Stripe AU + Documenso** — payment and e-sign stay manual until the contract pack is wired.
+- **Authenticated client mode** — project board, tickets, handover pack — post-launch product, not launch blocker.
+
+None of that invalidates the case study. The claim is: *a credible AI build studio site with a live scoping agent, shipped in one day for the price of a nice dinner.*
+
+## What I would do differently
+
+- Start from the recommender API on hour one, not hour twelve — UI without a working brain wastes time.
+- Check Turbopack + MDX plugin constraints earlier (serialisable `next.config` options caught me once).
+- Capture OpenRouter spend in the UI during dev so the A$50 cap is visible, not discovered in the dashboard afterwards.
+
+## Try it
+
+Brief a real problem — yours, not the example chips — on the [Control Centre](/control-centre). If the recommendation is wrong, that is useful data too; tell me at [hello@enginelabs.com.au](mailto:hello@enginelabs.com.au).
+
+---
+
+**Tools:** Next.js 16, TypeScript, Tailwind CSS v4, MDX, OpenRouter (Claude Opus 4.7), Resend, Vercel, Cursor.

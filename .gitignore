@@ -30,8 +30,13 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env / secrets — copy .env.example to .env.local locally; never commit real keys
 .env*
+!.env.example
+
+# local runtime data (briefs, usage, contact inbox backups)
+/.data/
+**/.data/
 
 # vercel
 .vercel
@@ -39,3 +44,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+

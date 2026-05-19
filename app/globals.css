@@ -1,26 +1,714 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* Type pairing.
+     - Sans (Inter Tight): UI + body + headings. Pull weight to 500/600 for
+       headings; keep 400/500 for body.
+     - Mono (JetBrains Mono): tags, eyebrows, code, the Control Centre header.
+     - Display (Fraunces): RESERVED for the splash wordmark only. Anywhere else
+       is a regression. */
+  --font-sans:
+    var(--font-inter-tight), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  --font-display:
+    var(--font-fraunces), "Iowan Old Style", "Apple Garamond", Georgia, serif;
+  --font-mono:
+    var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", monospace;
+  --font-heading: var(--font-inter-tight), sans-serif;
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* Engine Labs surfaces.
+     Five neutrals carry the four homepage chapters + the page baseline.
+     The inverse band has its own bg/fg pair so contrast is locked in both
+     light and dark mode. */
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-3: var(--paper-3);
+  --color-paper-4: var(--paper-4);
+  --color-engine-band-1: var(--engine-band-1);
+  --color-engine-band-2: var(--engine-band-2);
+  --color-engine-band-3: var(--engine-band-3);
+  --color-engine-band-4: var(--engine-band-4);
+  --color-engine-band-5: var(--engine-band-5);
+  --color-engine-band-6: var(--engine-band-6);
+  --color-engine-band-7: var(--engine-band-7);
+  --color-engine-band-8: var(--engine-band-8);
+  --color-paper-inverse: var(--paper-inverse);
+  --color-paper-inverse-fg: var(--paper-inverse-fg);
+  --color-paper-inverse-fg-muted: var(--paper-inverse-fg-muted);
+  --color-paper-inverse-rule: var(--paper-inverse-rule);
+
+  /* Homepage section rhythm — each band has its own bg/fg/surface pair. */
+  --color-section-brief: var(--section-brief-bg);
+  --color-section-brief-fg: var(--section-brief-fg);
+  --color-section-brief-fg-muted: var(--section-brief-fg-muted);
+  --color-section-brief-border: var(--section-brief-border);
+  --color-section-brief-elevated: var(--section-brief-elevated);
+  --color-section-brief-elevated-border: var(--section-brief-elevated-border);
+
+  --color-section-engines: var(--section-engines-bg);
+  --color-section-engines-fg: var(--section-engines-fg);
+  --color-section-engines-fg-muted: var(--section-engines-fg-muted);
+  --color-section-engines-border: var(--section-engines-border);
+  --color-section-engines-surface: var(--section-engines-surface);
+  --color-section-engines-surface-border: var(--section-engines-surface-border);
+
+  --color-section-methodology: var(--section-methodology-bg);
+  --color-section-methodology-fg: var(--section-methodology-fg);
+  --color-section-methodology-fg-muted: var(--section-methodology-fg-muted);
+  --color-section-methodology-border: var(--section-methodology-border);
+  --color-section-methodology-card: var(--section-methodology-card);
+  --color-section-methodology-card-border: var(--section-methodology-card-border);
+  --color-section-methodology-card-fg: var(--section-methodology-card-fg);
+  --color-section-methodology-card-muted: var(--section-methodology-card-muted);
+  --color-section-methodology-link: var(--section-methodology-link-surface);
+  --color-section-methodology-link-border: var(--section-methodology-link-border);
+
+  --color-section-pricing: var(--section-pricing-bg);
+  --color-section-pricing-fg: var(--section-pricing-fg);
+  --color-section-pricing-fg-muted: var(--section-pricing-fg-muted);
+  --color-section-pricing-border: var(--section-pricing-border);
+  --color-section-pricing-surface: var(--section-pricing-surface);
+  --color-section-pricing-surface-fg: var(--section-pricing-surface-fg);
+  --color-section-pricing-surface-fg-muted: var(--section-pricing-surface-fg-muted);
+  --color-section-pricing-surface-border: var(--section-pricing-surface-border);
+
+  --color-section-cta: var(--section-cta-bg);
+  --color-section-cta-border: var(--section-cta-border);
+
+  --color-section-contact: var(--section-contact-bg);
+  --color-section-contact-fg: var(--section-contact-fg);
+  --color-section-contact-fg-muted: var(--section-contact-fg-muted);
+  --color-section-contact-border: var(--section-contact-border);
+  --color-section-contact-surface: var(--section-contact-surface);
+  --color-section-contact-surface-border: var(--section-contact-surface-border);
+
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+
+  /* Single accent: petrol teal. Used sparingly — links, primary CTA,
+     focus rings, eyebrow on Lab, the 2px nav-active underline. */
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-strong: var(--brand-strong);
+
+  /* Quiet status colour for the "online" dot, "brief received" tick. */
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warn: var(--warn);
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-2xl: 14px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Light theme — GitHub palette (github.com marketing / repo UI). */
+:root {
+  --radius: 0.375rem;
+
+  --paper: #ffffff;
+  --paper-2: #f6f8fa;
+  --paper-3: #f6f8fa;
+  --paper-4: #eaeef2;
+  --paper-inverse: #24292f;
+  --paper-inverse-fg: #ffffff;
+  --paper-inverse-fg-muted: #8c959f;
+  --paper-inverse-rule: #424a53;
+
+  --ink: #1f2328;
+  --ink-2: #656d76;
+  --ink-3: #656d76;
+  --rule: #d0d7de;
+  --rule-strong: #d0d7de;
+
+  --brand: #0969da;
+  --brand-soft: #ddf4ff;
+  --brand-strong: #0550ae;
+  --success: #1a7f37;
+  --success-soft: #dafbe1;
+  --warn: #9a6700;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-2);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--brand);
+  --primary-foreground: #ffffff;
+  --secondary: var(--paper-3);
+  --secondary-foreground: var(--ink-2);
+  --muted: var(--paper-3);
+  --muted-foreground: var(--ink-3);
+  --accent: var(--paper-3);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: var(--rule);
+  --input: var(--paper);
+  --ring: var(--brand);
+
+  --chart-1: var(--brand);
+  --chart-2: var(--ink);
+  --chart-3: var(--ink-3);
+  --chart-4: var(--success);
+  --chart-5: var(--warn);
+
+  --sidebar: var(--paper);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--brand);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--paper-2);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--rule);
+  --sidebar-ring: var(--brand);
+
+  --grid-dot: rgba(31, 35, 40, 0.08);
+
+  /* Homepage bands — light / dark / light / dark / light / lift */
+  --section-brief-bg: #24292f;
+  --section-brief-fg: #ffffff;
+  --section-brief-fg-muted: #8c959f;
+  --section-brief-border: #424a53;
+  --section-brief-elevated: #ffffff;
+  --section-brief-elevated-border: #d0d7de;
+
+  --section-engines-bg: #d8dee6;
+  --section-engines-fg: #1f2328;
+  --section-engines-fg-muted: #424a53;
+  --section-engines-border: #afb8c1;
+  --section-engines-surface: #ffffff;
+  --section-engines-surface-border: #c8d1da;
+
+  --section-methodology-bg: #1f2328;
+  --section-methodology-fg: #ffffff;
+  --section-methodology-fg-muted: #8c959f;
+  --section-methodology-border: #424a53;
+  --section-methodology-card: #ffffff;
+  --section-methodology-card-border: #d0d7de;
+  --section-methodology-card-fg: #1f2328;
+  --section-methodology-card-muted: #656d76;
+  --section-methodology-link-surface: #f6f8fa;
+  --section-methodology-link-border: #d0d7de;
+
+  --section-pricing-bg: #ffffff;
+  --section-pricing-fg: #1f2328;
+  --section-pricing-fg-muted: #656d76;
+  --section-pricing-border: #d0d7de;
+  --section-pricing-surface: #24292f;
+  --section-pricing-surface-fg: #ffffff;
+  --section-pricing-surface-fg-muted: #8c959f;
+  --section-pricing-surface-border: #424a53;
+
+  --section-cta-bg: #eaeef2;
+  --section-cta-border: #c8d1da;
+
+  --section-contact-bg: #ffffff;
+  --section-contact-fg: #1f2328;
+  --section-contact-fg-muted: #656d76;
+  --section-contact-border: #d0d7de;
+  --section-contact-surface: #f6f8fa;
+  --section-contact-surface-border: #d0d7de;
+
+  /* Engine detail — lightest at top, each band one step darker. */
+  --engine-band-1: #ffffff;
+  --engine-band-2: #f6f8fa;
+  --engine-band-3: #f0f3f6;
+  --engine-band-4: #eaeef2;
+  --engine-band-5: #e1e7ed;
+  --engine-band-6: #d8dee6;
+  --engine-band-7: #d0d7de;
+  --engine-band-8: #c8d1da;
+}
+
+/* Dark theme — GitHub dark dimmed. */
+.dark {
+  --paper: #0d1117;
+  --paper-2: #161b22;
+  --paper-3: #21262d;
+  --paper-4: #161b22;
+  --paper-inverse: #010409;
+  --paper-inverse-fg: #e6edf3;
+  --paper-inverse-fg-muted: #9198a1;
+  --paper-inverse-rule: #30363d;
+
+  --ink: #e6edf3;
+  --ink-2: #9198a1;
+  --ink-3: #9198a1;
+  --rule: #30363d;
+  --rule-strong: #484f58;
+
+  --brand: #4493f8;
+  --brand-soft: #0d419d;
+  --brand-strong: #58a6ff;
+  --success: #3fb950;
+  --success-soft: #033a16;
+  --warn: #d29922;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-2);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--brand);
+  --primary-foreground: #050a10;
+  --secondary: var(--paper-3);
+  --secondary-foreground: var(--ink-2);
+  --muted: var(--paper-3);
+  --muted-foreground: var(--ink-3);
+  --accent: var(--paper-3);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: var(--rule);
+  --input: var(--paper-3);
+  --ring: var(--brand);
+
+  --chart-1: var(--brand);
+  --chart-2: var(--ink);
+  --chart-3: var(--ink-3);
+  --chart-4: var(--success);
+  --chart-5: var(--warn);
+
+  --sidebar: var(--paper);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--brand);
+  --sidebar-primary-foreground: #050a10;
+  --sidebar-accent: var(--paper-2);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--rule);
+  --sidebar-ring: var(--brand);
+
+  --grid-dot: rgba(230, 231, 225, 0.06);
+
+  --section-brief-bg: #21262d;
+  --section-brief-fg: #e6edf3;
+  --section-brief-fg-muted: #9198a1;
+  --section-brief-border: #30363d;
+  --section-brief-elevated: #0d1117;
+  --section-brief-elevated-border: #30363d;
+
+  --section-engines-bg: #161b22;
+  --section-engines-fg: #e6edf3;
+  --section-engines-fg-muted: #9198a1;
+  --section-engines-border: #30363d;
+  --section-engines-surface: #21262d;
+  --section-engines-surface-border: #484f58;
+
+  --section-methodology-bg: #010409;
+  --section-methodology-fg: #e6edf3;
+  --section-methodology-fg-muted: #9198a1;
+  --section-methodology-border: #21262d;
+  --section-methodology-card: #21262d;
+  --section-methodology-card-border: #30363d;
+  --section-methodology-card-fg: #e6edf3;
+  --section-methodology-card-muted: #9198a1;
+  --section-methodology-link-surface: #161b22;
+  --section-methodology-link-border: #30363d;
+
+  --section-pricing-bg: #21262d;
+  --section-pricing-fg: #e6edf3;
+  --section-pricing-fg-muted: #9198a1;
+  --section-pricing-border: #30363d;
+  --section-pricing-surface: #0d1117;
+  --section-pricing-surface-fg: #e6edf3;
+  --section-pricing-surface-fg-muted: #9198a1;
+  --section-pricing-surface-border: #30363d;
+
+  --section-cta-bg: #161b22;
+  --section-cta-border: #30363d;
+
+  --section-contact-bg: #21262d;
+  --section-contact-fg: #e6edf3;
+  --section-contact-fg-muted: #9198a1;
+  --section-contact-border: #30363d;
+  --section-contact-surface: #0d1117;
+  --section-contact-surface-border: #30363d;
+
+  /* Engine detail — matches page bg at top, each band one step darker. */
+  --engine-band-1: #0d1117;
+  --engine-band-2: #0c1016;
+  --engine-band-3: #0b0f14;
+  --engine-band-4: #0a0d12;
+  --engine-band-5: #090b10;
+  --engine-band-6: #080a0e;
+  --engine-band-7: #06080b;
+  --engine-band-8: #010409;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/40;
+  }
+  html {
+    @apply font-sans;
+    color-scheme: light;
+    background: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-size: 16px;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  ::selection {
+    background: var(--brand-soft);
+    color: var(--ink);
+  }
+  /* All headings sit on the workhorse sans. The splash wordmark opts in to
+     the display font explicitly via .font-display. */
+  h1, h2, h3 {
+    font-family: var(--font-sans);
+    letter-spacing: -0.014em;
   }
 }
 
-body {
-  background: var(--background);
+/* Single permitted Fraunces use site-wide: the splash wordmark. */
+.font-display {
+  font-family: var(--font-display);
+  font-feature-settings: "ss01";
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  letter-spacing: -0.018em;
+}
+
+/* Scroll-snap container — added to <html> by HomeScrollSnap on the homepage.
+   `proximity` (not `mandatory`) is deliberate: macOS trackpad inertia fights
+   mandatory snap. Snap is suppressed entirely under reduced-motion. */
+.snap-y-proximity {
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+}
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+@media (prefers-reduced-motion: reduce) {
+  .snap-y-proximity {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+}
+
+/* Eyebrow label — JetBrains Mono uppercase, ink-3 by default. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  display: inline-block;
+}
+.eyebrow-brand { color: var(--brand); }
+.eyebrow-on-inverse { color: var(--paper-inverse-fg-muted); }
+
+/* Subtle dotted grid — splash hint, used very sparingly. */
+.subtle-grid {
+  background-image:
+    radial-gradient(circle, var(--grid-dot) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: 0 0;
+}
+
+/* Logo PNG treatment.
+   Source is a transparent navy outline. In light mode it sits as-is. In dark
+   mode a single CSS filter flips the dark strokes to a light stroke so the
+   mark stays legible. No blend modes, no background hacks. */
+.logo-mark {
+  color: inherit;
+}
+.dark .logo-mark {
+  filter: invert(1) hue-rotate(180deg) brightness(0.95);
+}
+
+/* Quiet brand-coloured sweep for the Control Centre input on focus. */
+@property --cc-pos {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+.cc-glow {
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    var(--brand) var(--cc-pos),
+    transparent calc(var(--cc-pos) + 30%)
+  );
+  animation: cc-sweep 2.4s ease-in-out infinite;
+}
+@keyframes cc-sweep {
+  0% { --cc-pos: 0%; }
+  100% { --cc-pos: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cc-glow {
+    animation: none;
+    background: var(--brand);
+    opacity: 0.45;
+  }
+}
+
+/* GitHub-style button system.
+   - .btn-primary: slim accent fill, inset highlight, rounded-md, text-sm.
+   - .btn-ghost: text-only with hairline border that strengthens on hover. */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  height: 2rem;
+  padding: 0 0.875rem;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--brand-strong) 35%, transparent);
+  background: var(--brand);
+  color: #ffffff;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.005em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.btn-primary:hover { background: var(--brand-strong); }
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 0 2px var(--background),
+    0 0 0 4px var(--brand);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  height: 2rem;
+  padding: 0 0.875rem;
+  border-radius: 6px;
+  border: 1px solid var(--rule);
+  background: transparent;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+.btn-ghost:hover {
+  border-color: var(--rule-strong);
+  background: var(--paper-2);
+}
+
+/* Long-form prose. */
+.prose {
+  color: var(--foreground);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  max-width: 68ch;
+}
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--font-sans);
+  color: var(--foreground);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+.prose h1 {
+  font-size: clamp(2.25rem, 4vw, 2.75rem);
+  line-height: 1.1;
+  margin: 0.5rem 0 1.25rem;
+}
+.prose h2 {
+  font-size: 1.5rem;
+  line-height: 1.25;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+.prose h3 {
+  font-size: 1.15rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.prose p {
+  margin: 1.1rem 0;
+  color: var(--ink-2);
+}
+.prose ul,
+.prose ol {
+  margin: 1.1rem 0;
+  padding-left: 1.4rem;
+}
+.prose li {
+  margin: 0.45rem 0;
+  color: var(--ink-2);
+}
+.prose ul > li { list-style: disc; }
+.prose ol > li { list-style: decimal; }
+.prose strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.prose a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.prose a:hover {
+  color: var(--brand-strong);
+  text-decoration-thickness: 2px;
+}
+.prose blockquote {
+  border-left: 3px solid var(--brand);
+  padding-left: 1.25rem;
+  color: var(--ink-3);
+  margin: 1.5rem 0;
+  font-style: italic;
+  font-size: 1.0625rem;
+}
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--paper-3);
+  border: 1px solid var(--rule);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 2.25rem 0;
+}
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.4rem 0;
+  font-size: 0.95rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.prose th,
+.prose td {
+  border-bottom: 1px solid var(--rule);
+  padding: 0.65rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+  color: var(--ink-2);
+}
+.prose th {
+  color: var(--foreground);
+  font-weight: 600;
+  background: var(--paper-3);
+  font-size: 0.875rem;
+}
+.prose tr:last-child td { border-bottom: 0; }
+
+/* Engine spec bands — neutral prose inside alternating surfaces. */
+.prose-engine {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  max-width: none;
+  color: var(--ink-2);
+}
+.prose-engine > :first-child {
+  margin-top: 0;
+}
+.prose-engine h2 {
+  font-size: 1.35rem;
+  line-height: 1.25;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--foreground);
+}
+.prose-engine h3 {
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.prose-engine h3:first-child {
+  margin-top: 0;
+}
+.prose-engine p,
+.prose-engine li {
+  margin: 0.85rem 0;
+}
+.prose-engine ul,
+.prose-engine ol {
+  margin: 0.85rem 0;
+  padding-left: 1.35rem;
+}
+.prose-engine ul > li {
+  list-style: disc;
+}
+.prose-engine ol > li {
+  list-style: decimal;
+}
+.prose-engine strong {
+  font-weight: 600;
+  color: var(--foreground);
+}
+.prose-engine blockquote {
+  border-left: 3px solid var(--brand);
+  padding-left: 1rem;
+  margin: 1.25rem 0;
+  color: var(--ink-3);
+  font-style: italic;
+}
+.prose-engine a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-engine a:hover {
+  color: var(--brand-strong);
 }
