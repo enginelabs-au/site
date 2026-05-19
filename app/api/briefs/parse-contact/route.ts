@@ -67,7 +67,12 @@ export async function POST(req: Request) {
       userId,
     });
 
-    const updatedUsage = await addUsageCost(userId, result.costUsd);
+    let updatedUsage = usage;
+    try {
+      updatedUsage = await addUsageCost(userId, result.costUsd);
+    } catch (usageErr) {
+      console.warn("[briefs/parse-contact] usage write failed", usageErr);
+    }
     const { visitorName, visitorEmail } = finalizeParsedContact(
       result.parsed,
       known,

@@ -68,7 +68,7 @@ function SectionShell({
       id={id}
       className={`scroll-mt-16 border-t px-4 py-14 md:py-20 ${shell.bg} ${shell.border} ${shell.fg}`}
     >
-      <div className="mx-auto max-w-3xl">{children}</div>
+      <div className="mx-auto min-w-0 max-w-3xl">{children}</div>
     </section>
   );
 }

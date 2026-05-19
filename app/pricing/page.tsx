@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import MotionSection from "@/app/_components/MotionSection";
 import PriceBand from "@/app/_components/PriceBand";
 import PricingAmount, { PricingAmountFrom } from "@/app/_components/PricingAmount";
-import HomePricingTable from "@/app/_components/HomePricingTable";
+import TableScroll from "@/app/_components/TableScroll";
 import { ENGINES } from "@/app/_lib/engines";
 
 export const metadata: Metadata = {
@@ -124,8 +124,8 @@ export default function PricingPage() {
           <p className="mt-4 text-base text-ink-2">
             All starting prices are scoped in the Control Centre. Use the currency selector on the table to view indicative conversions.
           </p>
-          <div className="mt-10 overflow-hidden rounded-xl border border-border bg-paper">
-            <table className="w-full text-sm">
+          <TableScroll className="mt-10 rounded-xl border border-border bg-paper">
+            <table className="w-max min-w-[40rem] text-sm">
               <thead className="bg-paper-3 text-xs uppercase tracking-[0.06em] text-ink-3">
                 <tr>
                   <th className="px-5 py-3.5 text-left font-semibold">
@@ -171,7 +171,7 @@ export default function PricingPage() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </TableScroll>
         </div>
       </MotionSection>
 

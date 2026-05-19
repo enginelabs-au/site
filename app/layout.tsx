@@ -75,7 +75,7 @@ export default function RootLayout({
       className={`dark ${fraunces.variable} ${interTight.variable} ${jetbrainsMono.variable} h-full`}
       suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col bg-background text-foreground">
+      <body className="flex min-h-full flex-col overflow-x-clip bg-background text-foreground">
         <ThemeProvider>
           <CurrencyProvider>
             <ScrollProgressBar />

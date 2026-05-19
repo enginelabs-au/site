@@ -12,6 +12,7 @@ const CONTACT_FILLER =
   /\b(and|&|email|e-mail|e mail|is|my|name|contact|the|at|address|please|thanks|thank you)\b/gi;
 
 const EMAIL_PATTERN = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+const EMAIL_FORMAT = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function contactIntakeAskEmail(visitorName: string): string {
   const first =
@@ -65,7 +66,8 @@ export function normalizeVisitorEmail(raw: string): string {
   const match = raw.match(EMAIL_PATTERN);
   if (!match?.[0]) return "";
   const email = match[0].toLowerCase().replace(/[^a-z0-9@._%+-]/g, "");
-  return isValidVisitorEmail(email) ? email.slice(0, 320) : "";
+  if (!EMAIL_FORMAT.test(email)) return "";
+  return email.slice(0, 320);
 }
 
 export function isValidVisitorName(value: string): boolean {
@@ -76,9 +78,7 @@ export function isValidVisitorName(value: string): boolean {
 }
 
 export function isValidVisitorEmail(value: string): boolean {
-  const t = normalizeVisitorEmail(value);
-  if (!t) return false;
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t);
+  return normalizeVisitorEmail(value).length > 0;
 }
 
 export function parseVisitorContactFields(payload: Record<string, unknown>): {

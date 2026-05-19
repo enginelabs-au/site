@@ -4,14 +4,15 @@ import Link from "next/link";
 import { ENGINES } from "@/app/_lib/engines";
 import { useCurrency } from "@/app/_components/CurrencyProvider";
 import CurrencySelector from "@/app/_components/CurrencySelector";
+import TableScroll from "@/app/_components/TableScroll";
 
 export default function HomePricingTable() {
   const { formatBand, disclaimer } = useCurrency();
 
   return (
     <>
-      <div className="mt-8 overflow-hidden rounded-lg border border-section-pricing-surface-border bg-section-pricing-surface text-section-pricing-surface-fg shadow-md">
-        <table className="w-full text-left text-sm">
+      <TableScroll className="mt-8 rounded-lg border border-section-pricing-surface-border bg-section-pricing-surface text-section-pricing-surface-fg shadow-md">
+        <table className="w-max min-w-[36rem] text-left text-sm">
           <thead className="border-b border-section-pricing-surface-border bg-black/10 text-xs font-medium uppercase tracking-wide text-section-pricing-surface-fg-muted dark:bg-white/5">
             <tr>
               <th className="px-4 py-3">Engine</th>
@@ -46,7 +47,7 @@ export default function HomePricingTable() {
             ))}
           </tbody>
         </table>
-      </div>
+      </TableScroll>
       <p className="mt-3 text-[0.75rem] leading-relaxed text-section-pricing-fg-muted">{disclaimer}</p>
     </>
   );

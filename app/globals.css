@@ -643,14 +643,40 @@
   border-top: 1px solid var(--rule);
   margin: 2.25rem 0;
 }
+
+/* Touch-friendly horizontal scroll for wide blocks (tables, code). */
+.scroll-x-touch {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.prose pre {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
 .prose table {
-  width: 100%;
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  max-width: none;
   border-collapse: collapse;
   margin: 1.4rem 0;
   font-size: 0.95rem;
   border: 1px solid var(--rule);
   border-radius: 6px;
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.prose table > :is(thead, tbody, tfoot) {
+  display: table;
+  width: 100%;
+  min-width: 32rem;
 }
 .prose th,
 .prose td {
