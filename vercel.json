@@ -1,5 +1,13 @@
 {
   "framework": "nextjs",
   "buildCommand": "pnpm run build",
-  "installCommand": "pnpm install"
+  "installCommand": "pnpm install",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "enginelabs.com.au" }],
+      "destination": "https://www.enginelabs.com.au/:path*",
+      "permanent": true
+    }
+  ]
 }
