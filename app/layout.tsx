@@ -40,7 +40,10 @@ export const metadata: Metadata = {
         : "http://localhost:3000",
   ),
   icons: {
-    icon: [{ url: "/logo-favicon.png", type: "image/png", sizes: "32x32" }],
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/logo-favicon.png", type: "image/png", sizes: "32x32" },
+    ],
     apple: [{ url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" }],
   },
   title: {
