@@ -102,8 +102,9 @@ export default function ControlCentre({
   const pathname = usePathname();
   const presets = presetPrompts ?? (variant === "hero" ? HERO_PRESETS : []);
   const isWidget = variant === "nexus";
-  /** Homepage widget scrolls to #send; other routes use the contact page. */
-  const contactSendHref = pathname === "/" && isWidget ? "/#send" : "/contact#send";
+  const isHomePage = pathname === "/";
+  /** Landing page: scroll to #send; everywhere else: contact page. */
+  const contactSendHref = isHomePage ? "/#send" : "/contact#send";
   const showSendBriefCta = conversationDone && hasHandoff;
 
   function hasCollectedContact(): boolean {
@@ -112,15 +113,13 @@ export default function ControlCentre({
 
   function scrollToContactForm() {
     notifyBriefHandoffReady();
-    if (contactSendHref.startsWith("/#")) {
-      if (window.location.pathname === "/") {
-        window.history.pushState(null, "", "#send");
-      }
+    if (isHomePage) {
+      window.history.pushState(null, "", "#send");
       const scroll = () => scrollToContactSend("smooth");
       requestAnimationFrame(scroll);
       window.setTimeout(scroll, 120);
     } else {
-      window.location.assign(contactSendHref);
+      window.location.assign("/contact#send");
     }
   }
 
@@ -672,7 +671,7 @@ export default function ControlCentre({
             href={contactSendHref}
             onClick={(e) => {
               openContactHandoff("brief");
-              if (contactSendHref.startsWith("/#")) {
+              if (isHomePage) {
                 e.preventDefault();
               }
             }}
