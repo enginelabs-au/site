@@ -1,8 +1,9 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { dataRoot } from "@/app/_lib/data-path";
 import { recommenderConfig } from "@/app/_lib/recommender/config";
 
-const USAGE_DIR = path.join(process.cwd(), ".data", "usage");
+const USAGE_DIR = path.join(dataRoot(), "usage");
 
 export type UserUsage = {
   userId: string;

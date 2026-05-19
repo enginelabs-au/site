@@ -456,10 +456,13 @@ export default function ControlCentre({
         setStatus("idle");
       }
       scrollToBottom();
-    } catch {
+    } catch (err) {
       setStatus("error");
+      const detail = err instanceof Error ? err.message : "";
       setError(
-        "Something went wrong on our side. Try again in a minute, or email hello@enginelabs.com.au.",
+        detail && !detail.startsWith("Server returned")
+          ? detail
+          : "Something went wrong on our side. Try again in a minute, or email hello@enginelabs.com.au.",
       );
     }
   }

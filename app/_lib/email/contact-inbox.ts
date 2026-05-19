@@ -1,7 +1,8 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { dataRoot } from "@/app/_lib/data-path";
 
-const DATA_DIR = path.join(process.cwd(), ".data");
+const DATA_DIR = dataRoot();
 const INBOX_FILE = path.join(DATA_DIR, "contact-inbox.json");
 
 export type ContactInboxEntry = {
