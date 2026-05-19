@@ -9,6 +9,7 @@ import SiteHeader from "@/app/_components/SiteHeader";
 import SiteFooter from "@/app/_components/SiteFooter";
 import ThemeProvider from "@/app/_components/ThemeProvider";
 import { CurrencyProvider } from "@/app/_components/CurrencyProvider";
+import GoogleAnalytics from "@/app/_components/GoogleAnalytics";
 import SiteJsonLd from "@/app/_components/SiteJsonLd";
 import { getSiteUrl } from "@/app/_lib/site-url";
 
@@ -71,6 +72,9 @@ export default function RootLayout({
       className={`dark ${fraunces.variable} ${interTight.variable} ${jetbrainsMono.variable} h-full`}
       suppressHydrationWarning
     >
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body className="flex min-h-full flex-col overflow-x-clip bg-background text-foreground">
         <SiteJsonLd />
         <ThemeProvider>
