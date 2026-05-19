@@ -7,6 +7,10 @@ import {
   clearBriefHandoff,
   loadBriefHandoff,
 } from "@/app/_lib/brief-handoff";
+import {
+  normalizeVisitorEmail,
+  normalizeVisitorName,
+} from "@/app/_lib/recommender/contact-intake";
 
 type ContactSendFormProps = {
   className?: string;
@@ -49,8 +53,12 @@ export default function ContactSendForm({
         return;
       }
 
-      if (handoff.visitorName?.trim()) setName(handoff.visitorName.trim());
-      if (handoff.visitorEmail?.trim()) setEmail(handoff.visitorEmail.trim());
+      if (handoff.visitorName?.trim()) {
+        setName(normalizeVisitorName(handoff.visitorName));
+      }
+      if (handoff.visitorEmail?.trim()) {
+        setEmail(normalizeVisitorEmail(handoff.visitorEmail));
+      }
 
       if (mode === "contact_only") {
         setMessage("");

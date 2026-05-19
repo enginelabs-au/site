@@ -1,5 +1,6 @@
 import type { ChatMessage } from "@/app/_lib/recommender/types";
 import type { RecommendationResponse } from "@/app/_lib/recommender/types";
+import { stripContactIntakeFromTranscript } from "@/app/_lib/recommender/contact-intake";
 import { formatVisitorSignatureName } from "@/app/_lib/recommender/visitor-signature";
 
 /** Injected into the recommender system prompt — LLM must fill contact_handoff on every recommendation. */
@@ -17,6 +18,7 @@ contact_handoff rules:
   - decline: polite ask whether a narrower scope could work; do not pitch an Engine.
 - Keep email_body under 900 words. Be scannable — short bullets, not paragraphs of filler.
 - Do not paste the full chat transcript; summarise in "CONTEXT FROM OUR CHAT" (max 5 bullets).
+- Never include the visitor's name, email address, or contact-intake replies (e.g. "Cam cam@…") in CONTEXT — those are collected separately.
 
 email_body structure (use these section labels in order; omit a section only if truly empty):
 
@@ -54,8 +56,14 @@ export function buildFallbackHandoffEmail(params: {
   messages: ChatMessage[];
   parsed: RecommendationResponse;
   visitorName?: string;
+  visitorEmail?: string;
 }): { subject: string; body: string } {
-  const { parsed, seedBrief, messages } = params;
+  const { parsed, seedBrief } = params;
+  const messages = stripContactIntakeFromTranscript(
+    params.messages,
+    params.visitorName,
+    params.visitorEmail,
+  );
 
   const engineNames =
     parsed.recommended_engines.length > 0
@@ -65,10 +73,17 @@ export function buildFallbackHandoffEmail(params: {
   const problemLabel = seedBrief.trim().split(/\s+/).slice(0, 6).join(" ");
   const subject = `Control Centre brief — ${engineNames} | ${problemLabel || "New brief"}`;
 
+  const seen = new Set<string>();
   const userBullets = messages
     .filter((m) => m.role === "user")
     .map((m) => m.content.trim())
     .filter(Boolean)
+    .filter((c) => {
+      const key = c.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
     .slice(0, 5)
     .map((c) => `- ${c.length > 220 ? `${c.slice(0, 217)}…` : c}`);
 

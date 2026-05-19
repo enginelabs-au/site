@@ -12,6 +12,7 @@ import {
   isValidVisitorEmail,
   isValidVisitorName,
   parseVisitorContactFields,
+  stripContactIntakeFromTranscript,
 } from "@/app/_lib/recommender/contact-intake";
 import { checkMessageScope, OUT_OF_SCOPE_REPLY } from "@/app/_lib/recommender/scope-guard";
 import { attachUserCookie, getOrCreateUserId } from "@/app/_lib/recommender/session";
@@ -100,7 +101,11 @@ export async function POST(req: Request) {
   const payloadRecord = (payload ?? {}) as Record<string, unknown>;
   const { visitorName, visitorEmail } = parseVisitorContactFields(payloadRecord);
   const finalizeBrief = payloadRecord.finalizeBrief === true;
-  const messages = prepareMessagesForApi(sanitizeMessages(rawMessages));
+  const messages = stripContactIntakeFromTranscript(
+    prepareMessagesForApi(sanitizeMessages(rawMessages)),
+    visitorName,
+    visitorEmail,
+  );
 
   const userTurns = messages.filter((m) => m.role === "user").length;
   const latestUser = [...messages].reverse().find((m) => m.role === "user");

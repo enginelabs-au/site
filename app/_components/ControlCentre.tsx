@@ -15,8 +15,11 @@ import type { BriefHandoffMode } from "@/app/_lib/brief-handoff";
 import { scrollToContactSend } from "@/app/_lib/scroll-to-contact";
 import {
   contactIntakeAskEmail,
+  isContactIntakeUserMessage,
   isValidVisitorEmail,
   isValidVisitorName,
+  normalizeVisitorEmail,
+  normalizeVisitorName,
 } from "@/app/_lib/recommender/contact-intake";
 
 type ControlCentreProps = {
@@ -319,8 +322,12 @@ export default function ControlCentre({
           throw new Error(parsed.message ?? "Could not read your name or email.");
         }
 
-        const parsedName = parsed.visitorName?.trim() ?? "";
-        const parsedEmail = parsed.visitorEmail?.trim() ?? "";
+        const parsedName = parsed.visitorName?.trim()
+          ? normalizeVisitorName(parsed.visitorName)
+          : "";
+        const parsedEmail = parsed.visitorEmail?.trim()
+          ? normalizeVisitorEmail(parsed.visitorEmail)
+          : "";
 
         if (parsed.ready && parsedName && parsedEmail) {
           setVisitorName(parsedName);
@@ -329,6 +336,13 @@ export default function ControlCentre({
           nameForApi = parsedName;
           emailForApi = parsedEmail;
           finalizeBrief = true;
+          setMessages((prev) =>
+            prev.filter(
+              (m) =>
+                m.role === "assistant" ||
+                !isContactIntakeUserMessage(m.content, parsedName, parsedEmail),
+            ),
+          );
         } else if (parsed.nextStep === "email" && parsedName) {
           setVisitorName(parsedName);
           setMessages((prev) => [

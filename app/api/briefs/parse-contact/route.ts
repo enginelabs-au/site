@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { isRecommenderConfigured, recommenderConfig } from "@/app/_lib/recommender/config";
 import {
+  finalizeParsedContact,
   isValidVisitorEmail,
   isValidVisitorName,
+  normalizeVisitorName,
 } from "@/app/_lib/recommender/contact-intake";
 import { parseContactIntakeWithLlm } from "@/app/_lib/recommender/parse-contact-intake";
 import { attachUserCookie, getOrCreateUserId } from "@/app/_lib/recommender/session";
@@ -54,7 +56,7 @@ export async function POST(req: Request) {
   const step = intakeStep === "email_only" ? "email_only" : "initial";
   const known =
     typeof knownName === "string" && isValidVisitorName(knownName)
-      ? knownName.trim()
+      ? normalizeVisitorName(knownName)
       : undefined;
 
   try {
@@ -66,10 +68,10 @@ export async function POST(req: Request) {
     });
 
     const updatedUsage = await addUsageCost(userId, result.costUsd);
-    let { visitorName, visitorEmail } = result.parsed;
-    if (step === "email_only" && known) {
-      visitorName = known;
-    }
+    const { visitorName, visitorEmail } = finalizeParsedContact(
+      result.parsed,
+      known,
+    );
 
     const hasName = isValidVisitorName(visitorName);
     const hasEmail = isValidVisitorEmail(visitorEmail);

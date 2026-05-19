@@ -43,6 +43,7 @@ export function buildHandoffEmail(params: {
     messages: params.messages,
     parsed: params.parsed,
     visitorName: params.visitorName,
+    visitorEmail: params.visitorEmail,
   });
 
   const llmSubject = params.parsed.contact_handoff.email_subject.trim();
