@@ -389,6 +389,14 @@
   html.dark {
     color-scheme: dark;
   }
+  @media (prefers-reduced-motion: no-preference) {
+    .theme-toggle-hint {
+      animation: theme-toggle-hint-pulse 2.2s ease-in-out infinite;
+    }
+    .theme-toggle-hint svg {
+      animation: theme-toggle-hint-icon 2.2s ease-in-out infinite;
+    }
+  }
   body {
     @apply bg-background text-foreground;
     font-size: 1.0625rem;
@@ -403,6 +411,29 @@
   h1, h2, h3 {
     font-family: var(--font-sans);
     letter-spacing: -0.014em;
+  }
+}
+
+@keyframes theme-toggle-hint-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in oklch, var(--brand) 40%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--brand) 28%, transparent);
+  }
+}
+
+@keyframes theme-toggle-hint-icon {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  35% {
+    transform: rotate(-14deg) scale(1.1);
+  }
+  70% {
+    transform: rotate(14deg) scale(1.1);
   }
 }
 
