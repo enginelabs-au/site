@@ -40,8 +40,8 @@ export const metadata: Metadata = {
         : "http://localhost:3000",
   ),
   icons: {
-    icon: [{ url: "/logo.png", type: "image/png" }],
-    apple: [{ url: "/logo.png", type: "image/png" }],
+    icon: [{ url: "/logo-favicon.png", type: "image/png", sizes: "32x32" }],
+    apple: [{ url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" }],
   },
   title: {
     default: "Engine Labs — Engineer the work, don't hire for it",
