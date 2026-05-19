@@ -142,6 +142,14 @@ function normalizeContactHandoff(raw: unknown): {
   };
 }
 
+/** Validate a recommendation object cached between contact intake and finalize. */
+export function coerceCachedRecommendation(raw: unknown): RecommendationResponse | null {
+  if (!raw || typeof raw !== "object") return null;
+  const rec = raw as Record<string, unknown>;
+  if (rec.type !== "recommendation") return null;
+  return normalizeRecommendation(rec);
+}
+
 export function parseRecommenderResponse(raw: string): RecommenderResponse {
   const jsonText = extractJsonObject(raw);
   const attempts = [jsonText, repairTruncatedJson(jsonText)];

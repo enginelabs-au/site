@@ -52,15 +52,29 @@ export async function runRecommender(params: {
   let lastContent = "";
 
   for (let attempt = 0; attempt < 2; attempt++) {
-    const llm = await callOpenRouter({
-      systemPrompt: attempt === 0 ? systemPrompt : systemPrompt + REPAIR_SYSTEM_APPEND,
-      messages: params.messages,
-      userId: params.userId,
-      maxTokens:
-        attempt === 0
-          ? maxTokens
-          : recommenderConfig.maxRecommendOutputTokens,
-    });
+    let llm;
+    try {
+      llm = await callOpenRouter({
+        systemPrompt: attempt === 0 ? systemPrompt : systemPrompt + REPAIR_SYSTEM_APPEND,
+        messages: params.messages,
+        userId: params.userId,
+        maxTokens:
+          attempt === 0
+            ? maxTokens
+            : recommenderConfig.maxRecommendOutputTokens,
+      });
+    } catch (err) {
+      if (mustRecommendNow) {
+        console.warn("[runRecommender] OpenRouter failed, using escalation", err);
+        return buildDiscoveryCallEscalation(params.seedBrief, {
+          costUsd: totalCost,
+          promptTokens,
+          completionTokens,
+          rawContent: lastContent,
+        });
+      }
+      throw err;
+    }
 
     totalCost += llm.costUsd;
     promptTokens += llm.promptTokens;

@@ -20,7 +20,9 @@ import {
   isValidVisitorName,
   normalizeVisitorEmail,
   normalizeVisitorName,
+  stripContactIntakeFromTranscript,
 } from "@/app/_lib/recommender/contact-intake";
+import type { RecommendationResponse } from "@/app/_lib/recommender/types";
 
 type ControlCentreProps = {
   variant?: "hero" | "footer" | "page" | "vertical" | "nexus";
@@ -87,6 +89,8 @@ export default function ControlCentre({
   const [contactIntakeStep, setContactIntakeStep] = useState<"none" | "name" | "email">(
     "none",
   );
+  const [pendingRecommendation, setPendingRecommendation] =
+    useState<RecommendationResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -227,6 +231,7 @@ export default function ControlCentre({
     setVisitorName("");
     setVisitorEmail("");
     setContactIntakeStep("none");
+    setPendingRecommendation(null);
     clearBriefHandoff();
     setError(null);
     setIntroTyped("");
@@ -386,6 +391,8 @@ export default function ControlCentre({
     const transcript = buildApiTranscript(
       intakeMessageAlreadyAdded ? [...messages, userMsg] : messages,
       userMsg,
+      nameForApi,
+      emailForApi,
     );
 
     try {
@@ -398,6 +405,8 @@ export default function ControlCentre({
           visitorName: nameForApi || undefined,
           visitorEmail: emailForApi || undefined,
           finalizeBrief,
+          cachedRecommendation:
+            finalizeBrief && pendingRecommendation ? pendingRecommendation : undefined,
         }),
       });
 
@@ -416,6 +425,7 @@ export default function ControlCentre({
           visitorName?: string;
           visitorEmail?: string;
         };
+        cachedRecommendation?: RecommendationResponse;
       };
 
       if (res.status === 429 && data.error === "session_cap_reached") {
@@ -454,6 +464,9 @@ export default function ControlCentre({
       setMessages((prev) => [...prev, assistantMsg]);
 
       if (data.responseType === "contact_intake") {
+        if (data.cachedRecommendation) {
+          setPendingRecommendation(data.cachedRecommendation);
+        }
         setContactIntakeStep(data.intakeStep === "email" ? "email" : "name");
         setStatus("idle");
         scrollToBottom();
@@ -461,6 +474,7 @@ export default function ControlCentre({
       }
 
       if (data.responseType === "recommendation") {
+        setPendingRecommendation(null);
         if (data.handoff) {
           const handoffName = data.handoff.visitorName ?? nameForApi;
           const handoffEmail = data.handoff.visitorEmail ?? emailForApi;
@@ -745,10 +759,13 @@ function ResetButton({
 function buildApiTranscript(
   messages: ChatMessage[],
   userMsg: ChatMessage,
+  visitorName?: string,
+  visitorEmail?: string,
 ): Array<{ role: "user" | "assistant"; content: string }> {
-  return [...messages, userMsg]
+  const merged = [...messages, userMsg]
     .filter((m) => m.id !== "welcome")
     .map(({ role, content }) => ({ role, content }));
+  return stripContactIntakeFromTranscript(merged, visitorName, visitorEmail);
 }
 
 function delay(ms: number) {
