@@ -9,6 +9,8 @@ import SiteHeader from "@/app/_components/SiteHeader";
 import SiteFooter from "@/app/_components/SiteFooter";
 import ThemeProvider from "@/app/_components/ThemeProvider";
 import { CurrencyProvider } from "@/app/_components/CurrencyProvider";
+import SiteJsonLd from "@/app/_components/SiteJsonLd";
+import { getSiteUrl } from "@/app/_lib/site-url";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -32,13 +34,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : process.env.NODE_ENV === "production"
-        ? "https://enginelabs.com.au"
-        : "http://localhost:3000",
-  ),
+  metadataBase: new URL(getSiteUrl()),
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -76,6 +72,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col overflow-x-clip bg-background text-foreground">
+        <SiteJsonLd />
         <ThemeProvider>
           <CurrencyProvider>
             <ScrollProgressBar />
