@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ControlCentreWidget from "@/app/control-centre/ControlCentreWidget";
+import { ControlConsoleSection } from "@/app/_components/AsciiBrainBackground";
 import { SentencePara } from "@/app/_components/typography";
 import { buildEngineControlCentreSeed } from "@/app/_lib/engine-control-centre-seed";
 import { buildVerticalControlCentreSeed } from "@/app/_lib/vertical-control-centre-seed";
@@ -52,17 +53,12 @@ export default async function ControlCentrePage({
         </div>
       </section>
 
-      <section
-        className="border-b border-section-brief-border bg-section-brief px-4 py-12 text-section-brief-fg md:py-16"
-        aria-label="Control Centre"
-      >
-        <div className="mx-auto max-w-2xl">
-          <ControlCentreWidget
-            key={widgetKey}
-            prefilledBrief={prefilledBrief}
-          />
-        </div>
-      </section>
+      <ControlConsoleSection aria-label="Control Centre">
+        <ControlCentreWidget
+          key={widgetKey}
+          prefilledBrief={prefilledBrief}
+        />
+      </ControlConsoleSection>
 
       <section className="border-b border-border bg-background">
         <div className="mx-auto max-w-4xl px-4 py-14 md:py-20">
