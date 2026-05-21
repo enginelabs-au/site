@@ -4,13 +4,24 @@ import { ArrowRight } from "lucide-react";
 import MotionSection from "@/app/_components/MotionSection";
 import PriceBand from "@/app/_components/PriceBand";
 import PricingAmount, { PricingAmountFrom } from "@/app/_components/PricingAmount";
-import TableScroll from "@/app/_components/TableScroll";
-import { ENGINES } from "@/app/_lib/engines";
+import ResponsiveTable, {
+  type ResponsiveTableColumn,
+} from "@/app/_components/ResponsiveTable";
+import FAQAccordion, { type FAQItem } from "@/app/_components/FAQAccordion";
+import { SentencePara } from "@/app/_components/typography";
+import { ENGINES, type Engine } from "@/app/_lib/engines";
+import {
+  JsonLd,
+  breadcrumbSchema,
+  engineItemListSchema,
+  faqPageSchema,
+} from "@/app/_lib/json-ld";
+import { getSiteUrl } from "@/app/_lib/site-url";
 
 export const metadata: Metadata = {
   title: "Engine Labs pricing — starting prices",
   description:
-    "Four tiers — Basic, Standard, Premium, Custom. Every Engine priced from a published band. Scoping workshop for ambiguous briefs.",
+    "Four tiers — Basic, Standard, Premium, Custom. Every Engine priced from a published band in AUD. Scoping workshop for ambiguous briefs.",
 };
 
 const TIERS = [
@@ -62,7 +73,105 @@ const SUPPORT_PLANS = [
   },
 ];
 
+const PRICING_FAQ: FAQItem[] = [
+  {
+    q: "Is Engine Labs pricing GST inclusive?",
+    a: (
+      <>
+        No. Every price on this page is in Australian Dollars and GST
+        exclusive unless explicitly stated otherwise on a quote. GST is added
+        on the invoice as a separate line.
+      </>
+    ),
+  },
+  {
+    q: "What currency are prices quoted in?",
+    a: (
+      <>
+        Base prices are in AUD. The currency selector on the per-Engine table
+        shows indicative conversions only — your invoice is in AUD via Stripe
+        AU.
+      </>
+    ),
+  },
+  {
+    q: "Do you charge hourly?",
+    a: (
+      <>
+        No. Engines are scoped to a fixed price for a defined scope.
+        Larger or ambiguous projects begin with a paid scoping workshop
+        (credited against the final fee if you proceed).
+      </>
+    ),
+  },
+  {
+    q: "Do you take on monthly retainers?",
+    a: (
+      <>
+        Not in the conventional sense. We don&apos;t sell open-ended monthly
+        hours. After a build, you can opt into a Support plan — Basic Care,
+        Standard Care or Priority Care — which is a productised ongoing
+        engagement with documented scope, response targets, and a
+        cancel-anytime clause (SLA §3).
+      </>
+    ),
+  },
+  {
+    q: "Are refunds available?",
+    a: (
+      <>
+        Each Statement Of Work includes a 7–14 day defect-fix period (SLA §2)
+        during which we fix anything that doesn&apos;t match the SOW at no
+        extra cost. We don&apos;t offer refunds for outcomes — outcome
+        guarantees are explicitly disclaimed (MSA §16). Support beyond the
+        defect-fix period is a separate opt-in plan.
+      </>
+    ),
+  },
+];
+
 export default function PricingPage() {
+  const siteUrl = getSiteUrl();
+  const minFrom = Math.min(...ENGINES.map((e) => e.priceFrom));
+  const maxTo = Math.max(...ENGINES.map((e) => e.priceTo));
+  const perEngineColumns: ResponsiveTableColumn<Engine>[] = [
+    {
+      key: "engine",
+      header: "Engine",
+      cell: (e) => (
+        <>
+          <Link
+            href={`/engines/${e.slug}`}
+            className="font-medium text-foreground transition-colors hover:text-brand"
+          >
+            {e.name}
+          </Link>
+          {e.priceNote ? (
+            <p className="mt-1 text-xs text-ink-3">{e.priceNote}</p>
+          ) : null}
+        </>
+      ),
+      primary: true,
+    },
+    {
+      key: "replaces",
+      header: "Replaces",
+      cell: (e) => e.replaces,
+    },
+    {
+      key: "price",
+      header: "Price band",
+      cell: (e) => (
+        <PriceBand from={e.priceFrom} to={e.priceTo} variant="inline" />
+      ),
+    },
+    {
+      key: "timeline",
+      header: "Timeline",
+      cell: (e) => e.timeline,
+      tdClassName: "text-ink-3",
+    },
+  ];
   return (
     <>
       <section className="relative border-b border-border bg-background">
@@ -72,10 +181,31 @@ export default function PricingPage() {
             Starting prices.{" "}
             <span className="text-brand">GST exclusive unless stated.</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-ink-2 md:text-lg">
-            Every Engine is priced from a published band. That&apos;s the starting
-            tier for narrow, clearly accepted scope. Larger or unclear projects begin
-            with a paid scoping workshop.
+          <SentencePara className="mt-6 max-w-3xl text-base leading-relaxed text-ink-2 md:text-lg">
+            Engine Labs publishes price bands for every AI workflow
+            automation Engine in AUD. The full catalog spans from{" "}
+            <PricingAmount amountAud={minFrom} /> for the Basic tier of the
+            Insight Engine to <PricingAmount amountAud={maxTo} /> for the
+            Premium tier of the Founder Engine. Pricing is GST exclusive
+            unless stated. Larger or unclear projects begin with a paid
+            scoping workshop.
+          </SentencePara>
+          <p className="mt-4 text-sm text-ink-3">
+            Need the right Engine for inbound enquiries? See the{" "}
+            <Link
+              href="/engines/sales"
+              className="text-foreground underline decoration-1 underline-offset-4 transition-colors hover:text-brand"
+            >
+              Sales Engine for inbound lead qualification
+            </Link>
+            , or browse the{" "}
+            <Link
+              href="/engines"
+              className="text-foreground underline decoration-1 underline-offset-4 transition-colors hover:text-brand"
+            >
+              full Engine catalog
+            </Link>
+            .
           </p>
         </div>
       </section>
@@ -84,8 +214,13 @@ export default function PricingPage() {
         <div className="mx-auto max-w-5xl px-4 py-20 md:py-24">
           <p className="eyebrow">The four tiers</p>
           <h2 className="mt-4 text-[2rem] font-medium tracking-tight text-foreground md:text-[2.5rem]">
-            Four shapes of brief.
+            What are the four pricing tiers?
           </h2>
+          <SentencePara className="mt-4 max-w-3xl text-base text-ink-2">
+            Four shapes of brief, four bands of starting price. The Control
+            Centre slots your brief into the right tier and confirms the
+            final SOW.
+          </SentencePara>
           <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {TIERS.map((t) => (
               <div
@@ -95,7 +230,7 @@ export default function PricingPage() {
                 <h3 className="text-base font-semibold text-foreground">
                   {t.name}
                 </h3>
-                <p className="text-sm leading-relaxed text-ink-2">{t.suits}</p>
+                <SentencePara className="text-sm leading-relaxed text-ink-2">{t.suits}</SentencePara>
                 <div className="mt-2 text-sm">
                   <div className="font-medium text-foreground">
                     {t.fromAud != null ? (
@@ -119,59 +254,18 @@ export default function PricingPage() {
         <div className="mx-auto max-w-5xl px-4 py-20 md:py-24">
           <p className="eyebrow">Per-Engine bands</p>
           <h2 className="mt-4 text-[2rem] font-medium tracking-tight text-foreground md:text-[2.5rem]">
-            Per-Engine price bands.
+            How much does each Engine cost?
           </h2>
-          <p className="mt-4 text-base text-ink-2">
+          <SentencePara className="mt-4 text-base text-ink-2">
             All starting prices are scoped in the Control Centre. Use the currency selector on the table to view indicative conversions.
-          </p>
-          <TableScroll className="mt-10 rounded-xl border border-border bg-paper">
-            <table className="w-max min-w-[40rem] text-sm">
-              <thead className="bg-paper-3 text-xs uppercase tracking-[0.06em] text-ink-3">
-                <tr>
-                  <th className="px-5 py-3.5 text-left font-semibold">
-                    Engine
-                  </th>
-                  <th className="px-5 py-3.5 text-left font-semibold">
-                    Replaces
-                  </th>
-                  <th className="px-5 py-3.5 text-left font-semibold">
-                    Price band
-                  </th>
-                  <th className="px-5 py-3.5 text-left font-semibold">
-                    Timeline
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {ENGINES.map((e) => (
-                  <tr key={e.slug}>
-                    <td className="px-5 py-5">
-                      <Link
-                        href={`/engines/${e.slug}`}
-                        className="font-medium text-foreground transition-colors hover:text-brand"
-                      >
-                        {e.name}
-                      </Link>
-                      {e.priceNote ? (
-                        <p className="mt-1 text-xs text-ink-3">{e.priceNote}</p>
-                      ) : null}
-                    </td>
-                    <td className="px-5 py-5 text-ink-2">{e.replaces}</td>
-                    <td className="px-5 py-5">
-                      <PriceBand
-                        from={e.priceFrom}
-                        to={e.priceTo}
-                        variant="inline"
-                      />
-                    </td>
-                    <td className="px-5 py-5 text-sm text-ink-3">
-                      {e.timeline}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </TableScroll>
+          </SentencePara>
+          <ResponsiveTable
+            className="mt-10"
+            ariaLabel="Per-Engine price bands"
+            columns={perEngineColumns}
+            rows={ENGINES}
+            rowKey={(e) => e.slug}
+          />
         </div>
       </MotionSection>
 
@@ -179,14 +273,14 @@ export default function PricingPage() {
         <div className="mx-auto max-w-5xl px-4 py-20 md:py-24">
           <p className="eyebrow">Workshop</p>
           <h2 className="mt-4 text-[2rem] font-medium tracking-tight text-foreground md:text-[2.5rem]">
-            Paid scoping workshop.
+            What does the scoping workshop cost?
           </h2>
-          <p className="mt-4 max-w-3xl text-base text-ink-2 md:text-lg">
+          <SentencePara className="mt-4 max-w-3xl text-base text-ink-2 md:text-lg">
             For stacked, ambiguous or larger builds. A 60–90 minute structured
             workshop with us, a written one-page recommendation, and a
             custom Statement Of Work (SOW). The workshop fee is credited against the final fee
             if you proceed.
-          </p>
+          </SentencePara>
           <div className="mt-7 inline-flex flex-wrap items-center gap-3 rounded-xl border border-border bg-paper px-5 py-4 text-sm">
             <span className="text-ink-3">Workshop</span>
             <span className="font-medium text-foreground"><PricingAmountFrom amountAud={750} /></span>
@@ -202,11 +296,11 @@ export default function PricingPage() {
           <h2 className="mt-4 text-[2rem] font-medium tracking-tight text-foreground md:text-[2.5rem]">
             Support plans (separate, opt-in).
           </h2>
-          <p className="mt-4 max-w-3xl text-base text-ink-2">
+          <SentencePara className="mt-4 max-w-3xl text-base text-ink-2">
             Support is not bundled with builds. After the included defect-fix
             period (7–14 days, SLA §2) you choose whether to opt in. Response
             targets below are targets, not resolution guarantees.
-          </p>
+          </SentencePara>
           <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
             {SUPPORT_PLANS.map((p) => (
               <div
@@ -221,9 +315,9 @@ export default function PricingPage() {
                 </p>
                 <p className="text-sm text-foreground">{p.targetResponse}</p>
                 <p className="text-sm font-medium text-foreground"><PricingAmountFrom amountAud={p.fromAud} /> / month</p>
-                <p className="mt-auto pt-2 text-xs leading-relaxed text-ink-3">
+                <SentencePara className="mt-auto pt-2 text-xs leading-relaxed text-ink-3">
                   {p.notes}
-                </p>
+                </SentencePara>
               </div>
             ))}
           </div>
@@ -235,7 +329,7 @@ export default function PricingPage() {
           <div>
             <p className="eyebrow">Always</p>
             <h2 className="mt-4 text-2xl font-medium tracking-tight text-foreground md:text-[1.75rem]">
-              What's always included.
+              What&apos;s always included?
             </h2>
             <ul className="mt-6 space-y-3 text-sm text-ink-2 md:text-base">
               <li>Handover pack: repo, credentials, prompts, run-book.</li>
@@ -247,7 +341,7 @@ export default function PricingPage() {
           <div>
             <p className="eyebrow">Never</p>
             <h2 className="mt-4 text-2xl font-medium tracking-tight text-foreground md:text-[1.75rem]">
-              What's never included by default.
+              What&apos;s never included by default?
             </h2>
             <ul className="mt-6 space-y-3 text-sm text-ink-2 md:text-base">
               <li>Managed hosting or 24/7 monitoring (R4).</li>
@@ -265,18 +359,33 @@ export default function PricingPage() {
         </div>
       </MotionSection>
 
+      <MotionSection className="border-t border-border">
+        <div className="mx-auto max-w-4xl px-4 py-20 md:py-24">
+          <p className="eyebrow">Pricing FAQ</p>
+          <h2 className="mt-4 text-[2rem] font-medium tracking-tight text-foreground md:text-[2.5rem]">
+            Pricing questions, plain English.
+          </h2>
+          <p className="mt-4 max-w-2xl text-base text-ink-2">
+            The contracts answer all of these in more detail.
+          </p>
+          <div className="mt-8">
+            <FAQAccordion items={PRICING_FAQ} idPrefix="pricing-faq" />
+          </div>
+        </div>
+      </MotionSection>
+
       <section className="border-t border-border">
         <div className="mx-auto max-w-3xl px-4 py-24 text-center">
           <p className="eyebrow">Get started</p>
           <h2 className="mt-4 text-[2rem] font-medium tracking-tight text-foreground md:text-[2.5rem]">
             Get my starting price in the Control Centre.
           </h2>
-          <p className="mt-5 text-base leading-relaxed text-ink-2 md:text-lg">
+          <SentencePara className="mt-5 text-base leading-relaxed text-ink-2 md:text-lg">
             GST exclusive unless stated. Base prices are in AUD; use the currency
             selector to view indicative conversions.
             Third-party tool subscriptions (AI providers, integrations,
             hosting) are billed to you directly.
-          </p>
+          </SentencePara>
           <Link
             href="/control-centre"
             className="group/cta mt-8 inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2.5 text-sm font-medium text-white transition hover:brightness-110"
@@ -286,6 +395,28 @@ export default function PricingPage() {
           </Link>
         </div>
       </section>
+
+      <JsonLd
+        data={breadcrumbSchema(
+          [{ name: "Pricing", path: "/pricing" }],
+          siteUrl,
+        )}
+      />
+      <JsonLd
+        data={engineItemListSchema(
+          ENGINES,
+          {
+            name: "Engine Labs price bands",
+            pagePath: "/pricing",
+            description:
+              "Eight productised Engines with published AUD price bands.",
+          },
+          siteUrl,
+        )}
+      />
+      <JsonLd
+        data={faqPageSchema(PRICING_FAQ, `${siteUrl}/pricing`)}
+      />
     </>
   );
 }

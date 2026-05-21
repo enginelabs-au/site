@@ -116,8 +116,6 @@ export default function SiteFooter() {
                     Contact
                   </Link>
                 </li>
-                <li className="text-ink-3">LinkedIn — coming soon</li>
-                <li className="text-ink-3">X / Twitter — coming soon</li>
               </ul>
             </div>
           </div>

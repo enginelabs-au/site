@@ -694,11 +694,11 @@
 }
 .prose tr:last-child td { border-bottom: 0; }
 
-/* Engine spec bands — neutral prose inside alternating surfaces. */
+/* Engine spec bands — neutral prose inside alternating surfaces.
+   max-width is controlled by the Tailwind utility on the wrapper element. */
 .prose-engine {
   font-size: 1.0625rem;
   line-height: 1.7;
-  max-width: none;
   color: var(--ink-2);
 }
 .prose-engine > :first-child {

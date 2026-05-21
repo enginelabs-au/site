@@ -3,14 +3,22 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import ContactSectionAnchor from "@/app/_components/ContactSectionAnchor";
 import ContactSendForm from "@/app/_components/ContactSendForm";
+import { SentencePara } from "@/app/_components/typography";
+import {
+  JsonLd,
+  breadcrumbSchema,
+  contactPageSchema,
+} from "@/app/_lib/json-ld";
+import { getSiteUrl } from "@/app/_lib/site-url";
 
 export const metadata: Metadata = {
-  title: "Contact Engine Labs",
+  title: "Contact Engine Labs — Sydney, NSW",
   description:
-    "Send Engine Labs a message or your Control Centre brief — we reply within one business day.",
+    "Contact Engine Labs, a one-operator AI build studio in Sydney, NSW serving Australian small businesses, agencies and founder-led teams. Reply within one business day.",
 };
 
 export default function ContactPage() {
+  const siteUrl = getSiteUrl();
   return (
     <>
       <section className="relative border-b border-border bg-background">
@@ -19,11 +27,16 @@ export default function ContactPage() {
           <h1 className="mt-4 text-balance text-[2.5rem] font-medium leading-[1.05] tracking-tight text-foreground md:text-[3.25rem]">
             Send us your brief.
           </h1>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-ink-2 md:text-lg">
-            Complete the Control Centre first and your scoped brief will appear below — or
-            write your own message. We read every submission within one business day (Sydney
-            time).
-          </p>
+          <SentencePara className="mt-6 max-w-2xl text-base leading-relaxed text-ink-2 md:text-lg">
+            Engine Labs is a one-operator AI build studio in Sydney, NSW,
+            Australia. Complete the Control Centre first and your scoped
+            brief will appear below — or write your own message. We read
+            every submission within one business day, Sydney time.
+          </SentencePara>
+          <SentencePara className="mt-4 max-w-2xl text-base leading-relaxed text-ink-2 md:text-lg">
+            Engine Labs is based in Sydney, NSW and works with Australian
+            small businesses, agencies and founder-led teams.
+          </SentencePara>
           <p className="mt-4 text-base text-ink-2">
             <a
               href="mailto:hello@enginelabs.com.au"
@@ -80,6 +93,14 @@ export default function ContactPage() {
           </p>
         </div>
       </section>
+
+      <JsonLd
+        data={breadcrumbSchema(
+          [{ name: "Contact", path: "/contact" }],
+          siteUrl,
+        )}
+      />
+      <JsonLd data={contactPageSchema(siteUrl)} />
     </>
   );
 }

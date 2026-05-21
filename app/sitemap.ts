@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { listLabPosts } from "@/app/_lib/content";
 import { ENGINES, VERTICALS } from "@/app/_lib/engines";
+import { PROBLEM_PAGES } from "@/app/_lib/problem-pages";
+import { COMPARE_PAGES } from "@/app/_lib/compare-pages";
 import { getSiteUrl } from "@/app/_lib/site-url";
 
 const STATIC_ROUTES: Array<{
@@ -16,6 +18,7 @@ const STATIC_ROUTES: Array<{
   { path: "/methodology", changeFrequency: "monthly", priority: 0.8 },
   { path: "/about", changeFrequency: "monthly", priority: 0.75 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.75 },
+  { path: "/compare", changeFrequency: "monthly", priority: 0.7 },
   { path: "/faq", changeFrequency: "monthly", priority: 0.7 },
   { path: "/lab", changeFrequency: "weekly", priority: 0.7 },
   { path: "/what-we-dont-do", changeFrequency: "yearly", priority: 0.5 },
@@ -62,10 +65,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.65,
     }));
 
+  const problemEntries: MetadataRoute.Sitemap = PROBLEM_PAGES.map((p) => ({
+    url: `${base}/${p.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
+  const compareEntries: MetadataRoute.Sitemap = COMPARE_PAGES.map((c) => ({
+    url: `${base}/compare/${c.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.65,
+  }));
+
   return [
     ...staticEntries,
     ...engineEntries,
     ...verticalEntries,
+    ...problemEntries,
+    ...compareEntries,
     ...labEntries,
   ];
 }

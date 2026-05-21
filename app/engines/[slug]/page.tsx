@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
@@ -12,6 +11,13 @@ import {
   EngineRelatedBand,
   EngineVerticalsBand,
 } from "@/app/_components/engine-spec";
+import { engineMdxComponents, SentencePara } from "@/app/_components/typography";
+import {
+  JsonLd,
+  breadcrumbSchema,
+  engineServiceSchema,
+} from "@/app/_lib/json-ld";
+import { getSiteUrl } from "@/app/_lib/site-url";
 
 export function generateStaticParams() {
   return ENGINES.map((e) => ({ slug: e.slug }));
@@ -40,10 +46,13 @@ export default async function EnginePage({
   const engine = engineBySlug(slug);
   if (!engine) notFound();
 
-  let MDX: React.ComponentType | null = null;
+  const siteUrl = getSiteUrl();
+
+  type MdxComponent = React.ComponentType<{ components?: typeof engineMdxComponents }>;
+  let MDX: MdxComponent | null = null;
   try {
     const mod = await import(`@/content/engines/${slug}.mdx`);
-    MDX = mod.default as React.ComponentType;
+    MDX = mod.default as MdxComponent;
   } catch {
     MDX = null;
   }
@@ -76,9 +85,14 @@ export default async function EnginePage({
               <h1 className="mt-3 text-balance text-[2.5rem] font-medium leading-[1.05] tracking-tight text-foreground md:text-[4rem]">
                 {engine.name}
               </h1>
-              <p className="mt-6 max-w-3xl text-base leading-relaxed text-ink-2 md:text-lg">
-                {engine.oneLiner}
-              </p>
+              <SentencePara className="mt-6 max-w-prose text-base leading-relaxed text-ink-2 md:text-[1.0625rem]">
+                {engine.oneLiner} It replaces {engine.replaces.replace(/\.$/, "")}
+                , and the AI workflow automation build ships in {engine.timeline}.
+                Starting price band: A${engine.priceFrom.toLocaleString("en-AU")}–A$
+                {engine.priceTo.toLocaleString("en-AU")} AUD, GST exclusive
+                unless stated, scoped in the Control Centre for small
+                businesses and founder-led teams in Australia.
+              </SentencePara>
               <div className="mt-8">
                 <Link
                   href={`/control-centre?engine=${engine.slug}`}
@@ -89,18 +103,25 @@ export default async function EnginePage({
                 </Link>
               </div>
 
-              <div className="mt-14 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <Stat label="Replaces" value={engine.replaces} />
-                <Stat
-                  label="Price band"
-                  value={
-                    <EnginePriceStat from={engine.priceFrom} to={engine.priceTo} />
+              <dl className="mt-14 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <DlStat term="Replaces" detail={engine.replaces} />
+                <DlStat
+                  term="Price band"
+                  detail={
+                    <EnginePriceStat
+                      from={engine.priceFrom}
+                      to={engine.priceTo}
+                    />
                   }
                   note="scoped in the Control Centre"
                 />
-                <Stat label="Typical timeline" value={engine.timeline} />
-                <Stat label="Stack tier" value={engine.stackTiers.join(" · ")} />
-              </div>
+                <DlStat term="Typical timeline" detail={engine.timeline} />
+                <DlStat
+                  term="Stack tier"
+                  detail={engine.stackTiers.join(" · ")}
+                  note="Typical integrations listed in the spec sheet below"
+                />
+              </dl>
             </div>
 
             <aside className="mt-10 lg:mt-16 lg:sticky lg:top-24">
@@ -140,7 +161,27 @@ export default async function EnginePage({
         </div>
       </section>
 
-      {MDX ? <MDX /> : null}
+      <section
+        aria-labelledby={`${engine.slug}-what-it-does-heading`}
+        className="border-t border-border bg-paper-2 px-4 py-12 md:py-14"
+      >
+        <div className="mx-auto max-w-[50rem]">
+          <p className="eyebrow">Spec sheet</p>
+          <h2
+            id={`${engine.slug}-what-it-does-heading`}
+            className="mt-3 text-2xl font-semibold tracking-tight text-foreground md:text-[1.75rem]"
+          >
+            What does the {engine.name} do?
+          </h2>
+          <SentencePara className="mt-3 text-[0.95rem] leading-relaxed text-ink-2">
+            The published spec sheet below covers the work it retires, the
+            inputs and outputs, typical integrations, what&apos;s in and
+            out of scope, the commercial detail and the tiered price bands.
+          </SentencePara>
+        </div>
+      </section>
+
+      {MDX ? <MDX components={engineMdxComponents} /> : null}
 
       <EngineRelatedBand title="Related Engines">
         <div className="overflow-hidden rounded-xl border border-section-engines-surface-border bg-section-engines-surface shadow-sm">
@@ -166,7 +207,7 @@ export default async function EnginePage({
       </EngineVerticalsBand>
 
       <section className="border-t border-border bg-background">
-        <div className="mx-auto max-w-3xl px-4 py-24 text-center">
+        <div className="mx-auto max-w-5xl px-4 py-24 text-center">
           <p className="eyebrow">Get started</p>
           <h2 className="mt-4 text-[2rem] font-medium tracking-tight text-foreground md:text-[2.5rem]">
             Configure this in the Control Centre.
@@ -192,25 +233,36 @@ export default async function EnginePage({
           </div>
         </div>
       </section>
+
+      <JsonLd
+        data={breadcrumbSchema(
+          [
+            { name: "Engines", path: "/engines" },
+            { name: engine.name, path: `/engines/${engine.slug}` },
+          ],
+          siteUrl,
+        )}
+      />
+      <JsonLd data={engineServiceSchema(engine, siteUrl)} />
     </>
   );
 }
 
-function Stat({
-  label,
-  value,
+function DlStat({
+  term,
+  detail,
   note,
 }: {
-  label: string;
-  value: ReactNode;
+  term: string;
+  detail: React.ReactNode;
   note?: string;
 }) {
   return (
     <div className="rounded-md border border-border bg-paper p-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-3">
-        {label}
-      </p>
-      <div className="mt-2 text-sm leading-snug text-foreground">{value}</div>
+      <dt className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-3">
+        {term}
+      </dt>
+      <dd className="mt-2 text-sm leading-snug text-foreground">{detail}</dd>
       {note ? <p className="mt-1 text-xs text-ink-3">{note}</p> : null}
     </div>
   );

@@ -10,6 +10,15 @@ import {
 } from "@/app/_lib/engines";
 import EngineCard from "@/app/_components/EngineCard";
 import MotionSection from "@/app/_components/MotionSection";
+import FAQAccordion from "@/app/_components/FAQAccordion";
+import { SentencePara } from "@/app/_components/typography";
+import { verticalFaqItems } from "@/app/_lib/vertical-faq";
+import {
+  JsonLd,
+  breadcrumbSchema,
+  faqPageSchema,
+} from "@/app/_lib/json-ld";
+import { getSiteUrl } from "@/app/_lib/site-url";
 
 export function generateStaticParams() {
   return VERTICALS.map((v) => ({ slug: v.slug }));
@@ -38,6 +47,9 @@ export default async function VerticalPage({
   const v = verticalBySlug(slug);
   if (!v) notFound();
 
+  const siteUrl = getSiteUrl();
+  const faqItems = verticalFaqItems(v);
+
   const stackEngines = v.stack
     .map((s) => engineBySlug(s))
     .filter((e): e is NonNullable<typeof e> => Boolean(e));
@@ -65,15 +77,15 @@ export default async function VerticalPage({
               <h1 className="mt-3 text-balance text-[2.5rem] font-medium leading-[1.05] tracking-tight text-foreground md:text-[4rem]">
                 {v.hero.h1}
               </h1>
-              <p className="mt-6 max-w-3xl text-base leading-relaxed text-ink-2 md:text-lg">
+              <SentencePara className="mt-6 max-w-3xl text-base leading-relaxed text-ink-2 md:text-lg">
                 {v.hero.subhead}
-              </p>
+              </SentencePara>
               <blockquote className="mt-8 border-l-2 border-rule-strong pl-5 text-base text-ink-3">
                 “{v.pain}”
               </blockquote>
               {v.caveat ? (
                 <div className="mt-7 rounded-md border border-border bg-paper p-5 text-sm leading-relaxed text-ink-2">
-                  {v.caveat}
+                  <SentencePara>{v.caveat}</SentencePara>
                 </div>
               ) : null}
               <div className="mt-8">
@@ -138,16 +150,13 @@ export default async function VerticalPage({
         <div id="stack" className="mx-auto max-w-6xl px-4 py-20 md:py-24">
           <p className="eyebrow">The {v.shortName} stack</p>
           <h2 className="mt-4 text-[2rem] font-medium tracking-tight text-foreground md:text-[2.5rem]">
-            Three Engines.{" "}
-            <span className="text-brand">
-              One operator&apos;s worth of work, off your plate.
-            </span>
+            What does Engine Labs do for {v.shortName}?
           </h2>
-          <p className="mt-5 max-w-3xl text-base leading-relaxed text-ink-2 md:text-lg">
-            This is the stack we recommend for most {v.shortName} businesses.
+          <SentencePara className="mt-5 max-w-3xl text-base leading-relaxed text-ink-2 md:text-lg">
+            For most {v.shortName} businesses we recommend three Engines.
             The Control Centre will tell you which one to start with and how
             to add the others later.
-          </p>
+          </SentencePara>
           <div className="mt-10 overflow-hidden rounded-xl border border-border bg-paper">
             <div className="divide-y divide-border">
               {stackEngines.map((e, i) => (
@@ -173,6 +182,18 @@ export default async function VerticalPage({
                 <EngineCard key={e.slug} engine={e} />
               ))}
             </div>
+          </div>
+        </div>
+      </MotionSection>
+
+      <MotionSection className="border-t border-border">
+        <div className="mx-auto max-w-4xl px-4 py-20 md:py-24">
+          <p className="eyebrow">FAQ</p>
+          <h2 className="mt-4 text-[2rem] font-medium tracking-tight text-foreground md:text-[2.5rem]">
+            Frequently asked questions for {v.shortName}.
+          </h2>
+          <div className="mt-8">
+            <FAQAccordion items={faqItems} idPrefix={`${v.slug}-faq`} />
           </div>
         </div>
       </MotionSection>
@@ -204,6 +225,22 @@ export default async function VerticalPage({
           </div>
         </div>
       </section>
+
+      <JsonLd
+        data={breadcrumbSchema(
+          [
+            { name: "Built for", path: "/verticals" },
+            { name: v.shortName, path: `/verticals/${v.slug}` },
+          ],
+          siteUrl,
+        )}
+      />
+      <JsonLd
+        data={faqPageSchema(
+          faqItems,
+          `${siteUrl}/verticals/${v.slug}`,
+        )}
+      />
     </>
   );
 }

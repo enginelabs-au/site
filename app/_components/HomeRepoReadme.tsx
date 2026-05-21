@@ -3,7 +3,9 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import EnginesHomeList from "@/app/_components/EnginesHomeList";
 import HomePricingTable from "@/app/_components/HomePricingTable";
+import HomeWhoForBlock from "@/app/_components/HomeWhoForBlock";
 import { VERTICALS } from "@/app/_lib/engines";
+import { SentencePara } from "@/app/_components/typography";
 
 type SectionTone = "engines" | "methodology" | "pricing";
 
@@ -40,6 +42,7 @@ export default function HomeRepoReadme() {
       <SectionShell id="engines" tone="engines">
         <SectionEngines />
       </SectionShell>
+      <HomeWhoForBlock />
       <SectionShell id="who-we-build-for" tone="engines">
         <SectionWhoWeBuildFor />
       </SectionShell>
@@ -87,7 +90,7 @@ function SectionHeading({
   return (
     <header>
       <h2 className="text-2xl font-semibold tracking-tight md:text-[1.75rem]">{title}</h2>
-      <p className={`mt-3 max-w-2xl text-[0.95rem] leading-relaxed ${mutedClass}`}>{subtitle}</p>
+      <SentencePara className={`mt-3 max-w-2xl text-[0.95rem] leading-relaxed ${mutedClass}`}>{subtitle}</SentencePara>
       {children}
     </header>
   );
@@ -169,20 +172,20 @@ function SectionMethodology() {
               Step {i + 1}
             </span>
             <h3 className="mt-1 text-sm font-semibold">{step.title}</h3>
-            <p className="mt-2 text-[0.875rem] leading-relaxed text-section-methodology-card-muted">
+            <SentencePara className="mt-2 text-[0.875rem] leading-relaxed text-section-methodology-card-muted">
               {step.body}
-            </p>
+            </SentencePara>
           </li>
         ))}
       </ol>
 
       <div className="mt-10 border-t border-section-methodology-border pt-10">
         <h3 className="text-base font-semibold">The same Addendum, on every build.</h3>
-        <p className={`mt-2 max-w-2xl text-[0.9rem] leading-relaxed ${shell.muted}`}>
+        <SentencePara className={`mt-2 max-w-2xl text-[0.9rem] leading-relaxed ${shell.muted}`}>
           Every Statement Of Work we sign attaches the AI, Data and Security Addendum. Four data
           classes. Human approval before any customer-facing send. Third-party tools you own and
           can audit.
-        </p>
+        </SentencePara>
         <Link
           href="/methodology"
           className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-brand hover:underline"
@@ -215,10 +218,10 @@ function SectionPricing() {
 
       <HomePricingTable />
 
-      <p className={`mt-4 text-[0.85rem] leading-relaxed ${shell.muted}`}>
+      <SentencePara className={`mt-4 text-[0.85rem] leading-relaxed ${shell.muted}`}>
         The Control Centre will give you a band — not a fixed quote — and we will
         confirm the final SOW before any work begins. GST exclusive unless stated.
-      </p>
+      </SentencePara>
     </article>
   );
 }

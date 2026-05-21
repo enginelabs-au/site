@@ -86,13 +86,18 @@ export default function EngineCard({
           {engine.homeOneLiner}
         </p>
 
-        <div className="mt-1 flex flex-nowrap items-baseline gap-x-2 overflow-x-auto text-xs text-ink-3">
-          <span className="shrink-0 text-ink-2">Replaces</span>
-          <span aria-hidden className="shrink-0">
-            ·
+        <div className="mt-1 flex flex-col gap-1 text-xs text-ink-3 sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-2">
+          <span className="min-w-0 break-words">
+            <span className="text-ink-2">Replaces</span>
+            <span aria-hidden className="mx-1.5">
+              ·
+            </span>
+            <span>{engine.replaces}</span>
           </span>
-          <span className="min-w-0 text-ink-3">{engine.replaces}</span>
-          <span aria-hidden className="shrink-0">
+          <span
+            aria-hidden
+            className="hidden shrink-0 sm:inline"
+          >
             ·
           </span>
           <span className="shrink-0 whitespace-nowrap font-medium text-ink-2">

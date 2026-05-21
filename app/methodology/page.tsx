@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import MotionSection from "@/app/_components/MotionSection";
+import { SentencePara } from "@/app/_components/typography";
+import {
+  JsonLd,
+  breadcrumbSchema,
+  howToSchema,
+  type HowToStep,
+} from "@/app/_lib/json-ld";
+import { getSiteUrl } from "@/app/_lib/site-url";
 
 export const metadata: Metadata = {
   title: "How Engine Labs works — methodology and downloads",
@@ -9,77 +17,35 @@ export const metadata: Metadata = {
     "Intake, scope, build, acceptance, handover. Every checklist published. CC-licensed for your reuse.",
 };
 
-const STEPS = [
+const STEPS: HowToStep[] = [
   {
-    title: "Brief",
-    body: "Use the Control Centre. Two to four minutes. You get a recommendation and a draft Statement Of Work (SOW). Briefs that fall inside our exclusion list are politely declined and we explain why.",
+    name: "Brief",
+    text: "Use the Control Centre. Two to four minutes. You get a recommendation and a draft Statement Of Work (SOW). Briefs that fall inside our exclusion list are politely declined and we explain why.",
   },
   {
-    title: "Scope",
-    body: "We review the draft, refine it, and send a final SOW with a fixed price for in-scope work. Larger or ambiguous briefs start with a paid scoping workshop credited against the final fee.",
+    name: "Scope",
+    text: "We review the draft, refine it, and send a final SOW with a fixed price for in-scope work. Larger or ambiguous briefs start with a paid scoping workshop credited against the final fee.",
   },
   {
-    title: "Build",
-    body: "Weekly checkpoints. Your access stays your access — we work in your tools where possible. No surprises, no big-bang reveals.",
+    name: "Build",
+    text: "Weekly checkpoints. Your access stays your access — we work in your tools where possible. No surprises, no big-bang reveals.",
   },
   {
-    title: "Acceptance",
-    body: "Tested against the acceptance criteria written into the SOW. No “is it done?” — there's a checklist.",
+    name: "Acceptance",
+    text: "Tested against the acceptance criteria written into the SOW. No “is it done?” — there's a checklist.",
   },
   {
-    title: "Handover",
-    body: "Repo, credentials, prompts, run-book, known limitations. Yours to keep. The Engine runs in your tools, on your accounts, with your data.",
+    name: "Handover",
+    text: "Repo, credentials, prompts, run-book, known limitations. Yours to keep. The Engine runs in your tools, on your accounts, with your data.",
   },
   {
-    title: "Run mode (optional)",
-    body: "If you want us to keep an eye on it, you choose a Support plan (Basic Care, Standard Care, Priority Care). If not, you own it and we're available for Change Requests.",
-  },
-];
-
-const ARTEFACTS = [
-  {
-    name: "Client Intake Questionnaire",
-    desc: "The questions every brief eventually has to answer. Use it to pre-empt the Control Centre's clarifying turns.",
-    handover: "Handover Pack §1",
-  },
-  {
-    name: "Scope Confirmation Checklist",
-    desc: "What goes into a SOW so a fixed-price quote actually holds.",
-    handover: "Handover Pack §2",
-  },
-  {
-    name: "Access & Credential Checklist",
-    desc: "How we collect, use and rotate the credentials you give us — and how you take them back.",
-    handover: "Handover Pack §3",
-  },
-  {
-    name: "Acceptance Form template",
-    desc: "What the client signs when the build matches the SOW.",
-    handover: "Handover Pack §5",
-  },
-  {
-    name: "Handover Checklist",
-    desc: "Everything you receive when a build ends.",
-    handover: "Handover Pack §6",
-  },
-  {
-    name: "Sample SOW",
-    desc: "A fully filled-out SOW with a fictional client. The format is the same one our Control Centre drafts.",
-    handover: "Sample",
-  },
-  {
-    name: "Sample Change Request",
-    desc: "How a scope change is priced and signed without re-doing the whole SOW.",
-    handover: "Sample",
-  },
-  {
-    name: "Sample Production Sign-off",
-    desc: "What we ask before anything you build with us is allowed to send to a customer.",
-    handover: "Addendum §11",
+    name: "Run mode (optional)",
+    text: "If you want us to keep an eye on it, you choose a Support plan (Basic Care, Standard Care, Priority Care). If not, you own it and we're available for Change Requests.",
   },
 ];
 
 export default function MethodologyPage() {
+  const siteUrl = getSiteUrl();
   return (
     <>
       <section className="relative border-b border-border bg-background">
@@ -89,10 +55,14 @@ export default function MethodologyPage() {
             How we work.{" "}
             <span className="text-brand">Take it, use it, copy it.</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-ink-2 md:text-lg">
-            Process is not a moat. Showing you how we work is faster than
-            telling you we're good.
-          </p>
+          <SentencePara className="mt-6 max-w-3xl text-base leading-relaxed text-ink-2 md:text-lg">
+            Every Engine Labs build follows the same six steps in order:
+            brief, scope, build, acceptance, handover, and an optional run
+            mode. Cadence is weekly checkpoints during build, a defect-fix
+            period (7–14 days) after acceptance, and opt-in Support after
+            that. Process is not a moat — showing you how we work is faster
+            than telling you we&apos;re good.
+          </SentencePara>
         </div>
       </section>
 
@@ -100,7 +70,7 @@ export default function MethodologyPage() {
         <div className="mx-auto max-w-4xl px-4 py-20 md:py-24">
           <p className="eyebrow">How it works</p>
           <h2 className="mt-4 text-[2rem] font-medium tracking-tight text-foreground md:text-[2.5rem]">
-            The Build → Run loop.
+            What are the six steps of the Build → Run loop?
           </h2>
           <p className="mt-4 text-base text-ink-2">
             One loop, six steps, same for every build.
@@ -108,17 +78,21 @@ export default function MethodologyPage() {
           <ol className="mt-10 overflow-hidden rounded-xl border border-border bg-paper">
             <div className="divide-y divide-border">
               {STEPS.map((step, i) => (
-                <li key={step.title} className="flex gap-5 px-6 py-6">
+                <li
+                  key={step.name}
+                  id={`step-${i + 1}`}
+                  className="scroll-mt-24 flex gap-5 px-6 py-6"
+                >
                   <span className="font-mono text-xs text-ink-3">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
-                    <p className="text-base font-semibold text-foreground">
-                      {step.title}
-                    </p>
-                    <p className="mt-1 text-sm leading-relaxed text-ink-2">
-                      {step.body}
-                    </p>
+                    <h3 className="text-base font-semibold text-foreground">
+                      {step.name}
+                    </h3>
+                    <SentencePara className="mt-1 text-sm leading-relaxed text-ink-2">
+                      {step.text}
+                    </SentencePara>
                   </div>
                 </li>
               ))}
@@ -128,65 +102,18 @@ export default function MethodologyPage() {
       </MotionSection>
 
       <MotionSection className="border-t border-border">
-        <div id="downloads" className="mx-auto max-w-5xl px-4 py-20 md:py-24">
-          <p className="eyebrow">Artefacts</p>
-          <h2 className="mt-4 text-[2rem] font-medium tracking-tight text-foreground md:text-[2.5rem]">
-            Downloadable artefacts.
-          </h2>
-          <p className="mt-4 max-w-2xl text-base text-ink-2">
-            CC-licensed for reuse with attribution. Each PDF carries the line:{" "}
-            <em>
-              “Adapted from the Engine Labs contract pack. Not legal advice.”
-            </em>
-          </p>
-          <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
-            {ARTEFACTS.map((a) => (
-              <div
-                key={a.name}
-                className="flex flex-col gap-3 rounded-xl border border-border bg-paper p-5"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-base font-semibold text-foreground">
-                      {a.name}
-                    </p>
-                    <p className="mt-0.5 text-xs uppercase tracking-[0.06em] text-ink-3">
-                      {a.handover}
-                    </p>
-                  </div>
-                  <span className="inline-flex h-7 items-center gap-1 rounded-md border border-border bg-paper-3 px-2 text-xs text-ink-3">
-                    <Download className="h-3 w-3" />
-                    PDF · stub
-                  </span>
-                </div>
-                <p className="text-sm leading-relaxed text-ink-2">{a.desc}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-8 text-xs text-ink-3">
-            PDF downloads are not attached yet — descriptions match the contract
-            pack. See{" "}
-            <Link
-              href="/lab/building-the-control-centre-that-built-itself"
-              className="text-foreground underline underline-offset-4 decoration-1 hover:text-brand"
-            >
-              the Lab case study
-            </Link>{" "}
-            for what shipped in the first build.
-          </p>
-        </div>
-      </MotionSection>
-
-      <MotionSection className="border-t border-border">
         <div className="mx-auto max-w-4xl px-4 py-20 md:py-24">
           <p className="eyebrow">Boundaries</p>
           <h2 className="mt-4 text-[2rem] font-medium tracking-tight text-foreground md:text-[2.5rem]">
-            What this doesn't replace.
+            What does this methodology not replace?
           </h2>
-          <p className="mt-4 max-w-2xl text-base text-ink-2 md:text-lg">
-            A real conversation with a lawyer or accountant. These are working
-            artefacts, not legal counsel.
-          </p>
+          <SentencePara className="mt-4 max-w-2xl text-base text-ink-2 md:text-lg">
+            A real conversation with a lawyer or accountant. The six steps
+            above describe how Engine Labs builds — they are not legal
+            counsel, not a regulated compliance framework, and not a substitute
+            for the contract pack (MSA, SOW, SLA and Addendum) we attach to
+            every engagement.
+          </SentencePara>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/control-centre"
@@ -204,6 +131,25 @@ export default function MethodologyPage() {
           </div>
         </div>
       </MotionSection>
+
+      <JsonLd
+        data={breadcrumbSchema(
+          [{ name: "Methodology", path: "/methodology" }],
+          siteUrl,
+        )}
+      />
+      <JsonLd
+        data={howToSchema(
+          {
+            name: "The Engine Labs Build → Run loop",
+            description:
+              "Six-step productised methodology used on every Engine Labs build: brief, scope, build, acceptance, handover, run mode.",
+            pagePath: "/methodology",
+            steps: STEPS,
+          },
+          siteUrl,
+        )}
+      />
     </>
   );
 }

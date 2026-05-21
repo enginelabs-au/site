@@ -1,5 +1,6 @@
 import ContactSectionAnchor from "@/app/_components/ContactSectionAnchor";
 import ContactSendForm from "@/app/_components/ContactSendForm";
+import { SentencePara } from "@/app/_components/typography";
 
 /**
  * Homepage contact band — separate from the closing CTA; hosts #send for nav links.
@@ -19,11 +20,11 @@ export default function HomeContactSection() {
           >
             Contact
           </h2>
-          <p className="mt-3 text-[0.95rem] leading-relaxed text-section-contact-fg-muted">
+          <SentencePara className="mt-3 text-[0.95rem] leading-relaxed text-section-contact-fg-muted">
             Finished in the Control Centre? Your scoped recommendation can pre-fill the
             message below. Or write your own — we reply within one business day (Sydney
             time).
-          </p>
+          </SentencePara>
         </header>
 
         <ContactSectionAnchor className="mt-8 rounded-xl border border-section-contact-surface-border bg-section-contact-surface px-6 py-8 md:px-10 md:py-10">

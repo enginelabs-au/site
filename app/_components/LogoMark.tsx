@@ -7,18 +7,24 @@ import Image from "next/image";
  * `scripts/key-logo-black-bg.mjs` when needed).
  *
  * Light mode: navy mark on paper. Dark mode: `.dark .logo-mark` inverts to cream.
+ *
+ * `alt` defaults to "Engine Labs logo" so the mark has a descriptive label
+ * for accessibility and image search. Pass `alt=""` for purely decorative
+ * placements where the wordmark already sits beside the mark.
  */
 export default function LogoMark({
   className,
   priority = false,
+  alt = "Engine Labs logo",
 }: {
   className?: string;
   priority?: boolean;
+  alt?: string;
 }) {
   return (
     <Image
       src="/logo.png"
-      alt=""
+      alt={alt}
       width={620}
       height={654}
       priority={priority}

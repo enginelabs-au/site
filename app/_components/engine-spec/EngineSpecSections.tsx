@@ -31,7 +31,7 @@ function EngineSpecBand({
     <section
       className={`border-t border-border px-4 py-10 md:py-14 ${engineBandClass(step)}`}
     >
-      <div className="prose-engine mx-auto max-w-3xl">
+      <div className="prose-engine mx-auto max-w-5xl">
         {title ? (
           <h2 className="!mt-0 text-foreground">{title}</h2>
         ) : null}
@@ -46,7 +46,7 @@ export function EngineSpecLead({ children }: { children: ReactNode }) {
     <section
       className={`border-t border-border px-4 py-10 md:py-12 ${engineBandClass(1)}`}
     >
-      <div className="prose-engine mx-auto max-w-3xl">{children}</div>
+      <div className="prose-engine mx-auto max-w-5xl">{children}</div>
     </section>
   );
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Calendar } from "lucide-react";
+import { SentencePara } from "@/app/_components/typography";
 
 /**
  * Closing CTA band — inverse card; colours follow light/dark via paper-inverse tokens.
@@ -24,10 +25,10 @@ export default function HomeClosingCta() {
           >
             Ready to engineer the work instead of hiring for it?
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-[0.95rem] leading-relaxed text-paper-inverse-fg-muted">
+          <SentencePara className="mx-auto mt-4 max-w-lg text-[0.95rem] leading-relaxed text-paper-inverse-fg-muted">
             Open the Control Centre. Describe what&apos;s slowing you down — we&apos;ll
             recommend an Engine, outline a starting scope, and send a price band.
-          </p>
+          </SentencePara>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link href="/control-centre" className="btn-primary">
               <Calendar className="h-4 w-4" aria-hidden />

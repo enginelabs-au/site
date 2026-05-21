@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
 import ControlCentreWidget from "@/app/control-centre/ControlCentreWidget";
+import { SentencePara } from "@/app/_components/typography";
 import { buildEngineControlCentreSeed } from "@/app/_lib/engine-control-centre-seed";
 import { buildVerticalControlCentreSeed } from "@/app/_lib/vertical-control-centre-seed";
 import { engineBySlug, verticalBySlug } from "@/app/_lib/engines";
+import {
+  JsonLd,
+  breadcrumbSchema,
+  controlCentreWebApplicationSchema,
+} from "@/app/_lib/json-ld";
+import { getSiteUrl } from "@/app/_lib/site-url";
 
 export const metadata: Metadata = {
   title: "Control Centre — brief Engine Labs in two minutes",
@@ -24,6 +31,7 @@ export default async function ControlCentrePage({
       ? buildVerticalControlCentreSeed(vertical)
       : "";
   const widgetKey = engineSlug ?? verticalSlug ?? "default";
+  const siteUrl = getSiteUrl();
   return (
     <>
       <section className="relative border-b border-border bg-background">
@@ -33,11 +41,14 @@ export default async function ControlCentrePage({
             Brief it. We draft it.{" "}
             <span className="text-brand">You decide.</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-ink-2 md:text-lg">
-            Type the thing slowing your business down. We&apos;ll reply within 1
-            business day with a draft scope and a starting price band in AUD.
-            Two to four minutes for most briefs. No call required.
-          </p>
+          <SentencePara className="mt-6 max-w-3xl text-base leading-relaxed text-ink-2 md:text-lg">
+            The Engine Labs Control Centre is a free web tool: type the thing
+            slowing your business down, answer up to five clarifying
+            questions, and receive a recommended Engine plus a draft
+            Statement Of Work with a price band in AUD. Two to four minutes
+            for most briefs; we still review every brief within one business
+            day before work starts.
+          </SentencePara>
         </div>
       </section>
 
@@ -57,20 +68,28 @@ export default async function ControlCentrePage({
         <div className="mx-auto max-w-4xl px-4 py-14 md:py-20">
           <div className="grid gap-4 md:grid-cols-3">
             <Tile
-              title="What it does"
+              title="What does the Control Centre do?"
               body="Reads your brief, asks up to five clarifying questions, recommends one or more Engines, and drafts a one-page Statement Of Work (SOW) with a price band."
             />
             <Tile
-              title="What it won't do"
+              title="What won't the Control Centre do?"
               body="Quote a fixed price for ambiguous work. Promise a business outcome. Take on builds the contract pack excludes."
             />
             <Tile
-              title="How long it takes"
+              title="How long does it take?"
               body="Two to four minutes for most briefs — a short clarifying chat, then a structured recommendation and scope band. We still review every brief before work starts."
             />
           </div>
         </div>
       </section>
+
+      <JsonLd
+        data={breadcrumbSchema(
+          [{ name: "Control Centre", path: "/control-centre" }],
+          siteUrl,
+        )}
+      />
+      <JsonLd data={controlCentreWebApplicationSchema(siteUrl)} />
     </>
   );
 }
@@ -78,10 +97,8 @@ export default async function ControlCentrePage({
 function Tile({ title, body }: { title: string; body: string }) {
   return (
     <div className="rounded-xl border border-border bg-paper p-6">
-      <p className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-3">
-        {title}
-      </p>
-      <p className="mt-3 text-sm leading-relaxed text-ink-2">{body}</p>
+      <h2 className="text-base font-semibold text-foreground">{title}</h2>
+      <SentencePara className="mt-3 text-sm leading-relaxed text-ink-2">{body}</SentencePara>
     </div>
   );
 }
