@@ -70,6 +70,11 @@ export default function SiteFooter() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/compare" className="text-ink-2 transition-colors hover:text-foreground">
+                    Compare
+                  </Link>
+                </li>
+                <li>
                   <Link
                     href="/what-we-dont-do"
                     className="text-ink-2 transition-colors hover:text-foreground"

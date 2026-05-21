@@ -374,6 +374,41 @@ export default function PricingPage() {
         </div>
       </MotionSection>
 
+      <MotionSection className="border-t border-border">
+        <div className="mx-auto max-w-4xl px-4 py-16 md:py-20">
+          <p className="eyebrow">Weighing options?</p>
+          <h2 className="mt-4 text-2xl font-medium tracking-tight text-foreground md:text-[1.75rem]">
+            See how Engine Labs compares to the alternatives.
+          </h2>
+          <SentencePara className="mt-4 max-w-2xl text-base text-ink-2">
+            We&apos;ve published plain-language comparisons against{" "}
+            <Link href="/compare/engine-labs-vs-hiring-a-va" className="text-foreground underline underline-offset-4 hover:text-brand">
+              hiring a VA
+            </Link>
+            ,{" "}
+            <Link href="/compare/engine-labs-vs-zapier-consultant" className="text-foreground underline underline-offset-4 hover:text-brand">
+              using a Zapier consultant
+            </Link>
+            , and{" "}
+            <Link href="/compare/engine-labs-vs-ai-automation-agency" className="text-foreground underline underline-offset-4 hover:text-brand">
+              hiring a larger AI automation agency
+            </Link>
+            , plus a neutral explainer on{" "}
+            <Link href="/compare/ai-automation-vs-workflow-automation" className="text-foreground underline underline-offset-4 hover:text-brand">
+              AI automation vs workflow automation
+            </Link>
+            . No disparagement, just where each option fits.
+          </SentencePara>
+          <Link
+            href="/compare"
+            className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-brand"
+          >
+            See all comparisons
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+      </MotionSection>
+
       <section className="border-t border-border">
         <div className="mx-auto max-w-3xl px-4 py-24 text-center">
           <p className="eyebrow">Get started</p>
