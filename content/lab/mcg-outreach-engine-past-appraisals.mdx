@@ -1,0 +1,38 @@
+## The problem
+
+Agentbox at MCG held a few hundred people who had asked for a market appraisal in the last 18 months and not listed, a couple of hundred past buyers, and the landlords on the rent roll. Everyone had opted in. Nobody was hearing from the agency unless an agent had a quiet afternoon and did a call-around. Follow-up was sporadic, and sporadic follow-up in real estate is the same as none.
+
+## The numbers
+
+<table>
+  <tbody>
+    <tr><th>Agent time retired</th><td>About 3 hours a week of ad hoc call-arounds and list building</td></tr>
+    <tr><th>Value at A$85 an hour</th><td>Roughly A$255 a week, or A$12,200 a year</td></tr>
+    <tr><th>Consistency</th><td>Every past appraisal hears from their agent at 3, 6 and 12 months without anyone remembering to do it</td></tr>
+    <tr><th>Build</th><td>Outreach Engine, Standard+ tier, A$2,800 ex GST, delivered in three weeks</td></tr>
+    <tr><th>Running cost</th><td>Under A$40 a month, self-run</td></tr>
+    <tr><th>Payback</th><td>About eleven weeks</td></tr>
+  </tbody>
+</table>
+
+I have not counted listings won. Attributing a listing to one email in a market like the Shoalhaven would be guessing, and I do not put guesses in a table.
+
+## What I built
+
+Three segments come out of Agentbox each week: past appraisals by month since the appraisal, settled buyers reaching their first anniversary, and landlords approaching a rent review. Before anyone is drafted for, the Engine checks their contact preferences in Agentbox and the unsubscribe list. No consent, no draft.
+
+Drafts are personal in the way a good agent's email is personal. They mention the property, what has sold nearby since, and one genuine reason to get in touch. They go into a queue for the agent to read. Sends are throttled to a sensible daily number so the agency never looks like a mail-out.
+
+Every reply is routed straight to the agent's inbox and logged against the contact in Agentbox. The Engine never replies.
+
+## What it deliberately does not do
+
+No cold lists. No scraped data. No text messages without express consent. No sending on an agent's behalf. The compliance setup is why this Engine costs more than the [Sales Engine](/lab/mcg-sales-engine-portal-enquiries) and why I would not build it any other way.
+
+## What changed since
+
+The repeat-enquirer rule from the Sales Engine is what prompted this build. Once the agents saw how many people were circling listings without being spoken to, they wanted the same discipline applied to the people already in their database.
+
+---
+
+**Tools:** Agentbox contacts and preferences, recent sales data, OpenRouter for drafting, Resend for throttled sending, a worker on Vercel.

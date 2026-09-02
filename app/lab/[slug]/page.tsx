@@ -67,6 +67,7 @@ export default async function LabPostPage({
           </p>
           <p className="eyebrow mt-10">
             {post.engine ? `${post.engine} engine` : "Build"}
+            {post.client ? ` · client build for ${post.client}` : ""}
             {post.status && post.status !== "published"
               ? ` · ${post.status}`
               : ""}

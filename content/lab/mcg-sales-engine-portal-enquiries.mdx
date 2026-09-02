@@ -1,0 +1,44 @@
+## The problem
+
+MCG Property Shoalhaven runs sales and property management out of one office with fewer than ten people. Portal enquiries from realestate.com.au and Domain landed as emails, sat in the office inbox, and got keyed into Agentbox whenever an agent came up for air. Evening and weekend enquiries waited until the next morning. Two agents were each spending around five hours a week just reading, sorting and writing first replies.
+
+The buyer who enquired at 9pm on a Saturday had usually enquired on three other listings too. Whoever replied first got the conversation.
+
+## The numbers
+
+<table>
+  <tbody>
+    <tr><th>Agent time retired</th><td>About 8 hours a week across two agents</td></tr>
+    <tr><th>Value at A$85 an hour</th><td>Roughly A$680 a week, or A$32,600 a year</td></tr>
+    <tr><th>First reply drafted</th><td>Within minutes of the enquiry, any hour, any day</td></tr>
+    <tr><th>Build</th><td>Sales Engine, Standard tier, A$1,800 ex GST, delivered in two weeks</td></tr>
+    <tr><th>Running cost</th><td>Under A$40 a month in model usage, self-run after handover</td></tr>
+    <tr><th>Payback</th><td>Inside the first month</td></tr>
+  </tbody>
+</table>
+
+Hours are MCG's own, timed over three weeks before and three weeks after. Rates are the assumptions I use for every study in this series: A$85 an hour for agents and the principal, A$45 for property management and admin roles. Your figures will land somewhere else.
+
+## What I built
+
+Every portal enquiry email is read the moment it arrives. The Engine pulls out the person, the listing, their message and any signals worth noticing: pre-approval mentioned, timeframe, whether they are a buyer, a tenant, a neighbour asking what the place went for, or an owner fishing for an appraisal.
+
+It then finds or creates the contact in Agentbox, attaches the enquiry to the right listing, and scores it against rules the agents wrote themselves. A short reply is drafted in the listed agent's own voice, with the next open home and a question that moves the conversation along.
+
+Nothing is sent by the Engine. The agent gets a notification, reads the draft, edits if they want, and sends from their own phone. Appraisal enquiries skip the buyer flow and go straight to the principal.
+
+Monday at 6am a pipeline digest lands in the inbox: enquiries by listing, unanswered conversations, and which sources were busiest.
+
+## What it deliberately does not do
+
+It never sends a message on an agent's behalf. It does not text people. It does not touch contract or settlement stages in Agentbox. Those were the first three things I wrote into the scope, because a real estate agency lives or dies on trust and I wanted the humans to stay visibly in the loop.
+
+## What changed since
+
+Version one scored on four rules. By the third week the agents had added six more, including one that flags a repeat enquirer across multiple listings so someone rings them instead of emailing. That rule alone is the reason the [Outreach Engine](/lab/mcg-outreach-engine-past-appraisals) got built later.
+
+This was the first Engine for MCG and the reason the rest of the series exists. The handover included the repo, the prompts, a run-book and a two week defect-fix window, the same as every build on the [pricing page](/pricing).
+
+---
+
+**Tools:** Agentbox, realestate.com.au and Domain enquiry feeds, the office inbox, OpenRouter, a small scheduled worker on Vercel.

@@ -1,0 +1,40 @@
+## The problem
+
+Sunday night at MCG belonged to a spreadsheet. The principal pulled appraisals, new listings, days on market and enquiry counts out of Agentbox, arrears and vacancies out of the rent roll, and portal stats out of two browser tabs, then pasted it all into one sheet for the Monday meeting. Call it three hours, most weekends, done by the most expensive person in the building.
+
+The numbers were always a week old by the time anyone acted on them.
+
+## The numbers
+
+<table>
+  <tbody>
+    <tr><th>Principal time retired</th><td>About 3 hours a week</td></tr>
+    <tr><th>Value at A$85 an hour</th><td>Roughly A$255 a week, or A$12,200 a year</td></tr>
+    <tr><th>Freshness</th><td>Dashboard refreshes nightly, summary lands 6am Monday</td></tr>
+    <tr><th>Build</th><td>Insight Engine, Standard tier, A$1,200 ex GST, delivered in two weeks</td></tr>
+    <tr><th>Running cost</th><td>Under A$15 a month, self-run</td></tr>
+    <tr><th>Payback</th><td>About five weeks</td></tr>
+  </tbody>
+</table>
+
+## What I built
+
+Three data sources feed one dashboard: an Agentbox export, the rent roll export already produced for the [Ops Engine](/lab/mcg-ops-engine-leases-and-maintenance), and the portal enquiry counts the [Sales Engine](/lab/mcg-sales-engine-portal-enquiries) was already logging. Nothing new had to be typed in anywhere.
+
+The dashboard is filterable by agent, suburb and month. Sales sees listings, appraisals, enquiries and days on market. Property management sees arrears, vacancies, renewals due and maintenance spend by owner.
+
+The part people actually read is the Monday email. It is a written summary in plain English, about 250 words, that says what moved, what did not, and what looks odd. Arrears jumped on four properties. Enquiry dropped to zero on a listing that had been busy. A suburb the agency does not usually list in produced two appraisals.
+
+Anomaly alerts fire mid-week as well, so nobody waits five days to find out a listing has gone quiet.
+
+## What it deliberately does not do
+
+It does not forecast, and it does not tell anyone what to do about the numbers. That was a conscious call. The principal wanted a better briefing, not a robot in the meeting. Every metric is documented in a one page sheet so nobody argues about what "days on market" means.
+
+## What changed since
+
+The written summary started life as the Monday status email from the Ops Engine. Once three sources were in one place it made sense to let the Engine write the whole briefing. The metric definitions doc later became part of the [Knowledge Engine's](/lab/mcg-knowledge-engine-how-do-we) source material.
+
+---
+
+**Tools:** Agentbox exports, property management system exports, Sales Engine enquiry log, a small Postgres database, a Next.js dashboard on Vercel, OpenRouter for the weekly summary.

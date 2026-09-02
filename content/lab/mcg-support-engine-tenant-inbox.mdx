@@ -1,0 +1,38 @@
+## The problem
+
+The property management inbox at MCG takes 60 to 80 emails a day. Maintenance requests, "when is my inspection", "how do I pay rent", "why is my statement late", tradies confirming times, and every so often a hot water system that has died on a Friday afternoon. Two property managers were each losing an hour and a half a day to triage and first replies, and the urgent ones were not always the ones that got read first.
+
+## The numbers
+
+<table>
+  <tbody>
+    <tr><th>PM time retired</th><td>About 10 hours a week across two property managers</td></tr>
+    <tr><th>Value at A$45 an hour</th><td>Roughly A$450 a week, or A$21,600 a year</td></tr>
+    <tr><th>Urgent maintenance</th><td>Flagged and texted to the on-duty PM within two minutes</td></tr>
+    <tr><th>Build</th><td>Support Engine, Standard tier, A$1,800 ex GST, delivered in three weeks</td></tr>
+    <tr><th>Running cost</th><td>Under A$60 a month, self-run</td></tr>
+    <tr><th>Payback</th><td>About four weeks</td></tr>
+  </tbody>
+</table>
+
+## What I built
+
+Every email into the property management inbox is read, tagged and prioritised. Tags are the ones the team already used in their heads: urgent maintenance, routine maintenance, arrears, inspection, landlord, general, tradie.
+
+For anything routine the Engine drafts a reply from MCG's own material: the tenant handbook, the office procedures, and the plain-English guidance NSW Fair Trading publishes. Every draft cites where it got the answer, so the PM can see it is quoting the handbook and not improvising. The PM reads, edits if needed, and sends with one click.
+
+Urgent maintenance has its own path. No hot water, water leaks, electrical faults, security issues. Those get flagged, the on-duty property manager is texted, and no draft is written because the right response is a phone call.
+
+Friday afternoon a summary goes out: recurring issues, properties generating the most email, anything still waiting on a landlord.
+
+## What it deliberately does not do
+
+The Engine gives no legal advice and does not tell a tenant what their rights are beyond linking to the official source. It does not send anything itself. Tenant data never leaves MCG's systems apart from the text of the email being drafted against, and nothing is retained by the model provider.
+
+## What changed since
+
+The Friday summary turned out to be the most useful thing in the build. Three properties were producing a third of the email, all for the same reason, and that got fixed at the source. The handbook gaps the Engine kept hitting became the reading list for the [Knowledge Engine](/lab/mcg-knowledge-engine-how-do-we).
+
+---
+
+**Tools:** The property management inbox, MCG's tenant handbook and procedures, NSW Fair Trading public guidance, OpenRouter, Twilio for the urgent texts, a worker on Vercel.

@@ -26,10 +26,15 @@ export default async function LabIndexPage() {
             <span className="text-brand">fully documented.</span>
           </h1>
           <SentencePara className="mt-6 max-w-3xl text-base leading-relaxed text-ink-2 md:text-lg">
-            The Lab is Engine Labs&apos; public build log. No clients required:
-            each post documents one small Engine, demo or workflow — including
-            what didn&apos;t work — with a redacted SOW and a price band in
-            AUD. Take what you like.
+            The Lab is Engine Labs&apos; build log. Client builds are written up
+            with the pain point, what shipped, and the hours and dollars it
+            retired, in AUD. Public builds document one small Engine, demo or
+            workflow, including what didn&apos;t work. Take what you like.
+          </SentencePara>
+          <SentencePara className="mt-4 max-w-3xl text-sm leading-relaxed text-ink-3">
+            The MCG Property Shoalhaven series covers all eight Engines, built
+            one at a time for a sales and property management office of under
+            ten people. Read it in date order from the bottom up.
           </SentencePara>
         </div>
       </section>
@@ -48,10 +53,14 @@ export default async function LabIndexPage() {
                 >
                   <p className="text-xs font-semibold uppercase tracking-[0.08em] text-brand">
                     {p.engine ? `${p.engine} engine` : "Build"}
+                    {p.client ? " · client build" : ""}
                     {p.status && p.status !== "published"
                       ? ` · ${p.status}`
                       : ""}
                   </p>
+                  {p.client ? (
+                    <p className="-mt-2 text-xs text-ink-3">{p.client}</p>
+                  ) : null}
                   <h2 className="text-base font-semibold tracking-tight text-foreground">
                     {p.title}
                   </h2>

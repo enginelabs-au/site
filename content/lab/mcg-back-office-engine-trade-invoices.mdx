@@ -1,0 +1,38 @@
+## The problem
+
+Roughly 120 trade invoices a month come into MCG for maintenance across the rent roll. Plumbers, electricians, cleaners, gardeners, the odd locksmith. They arrive as PDFs, as photos of paper taken in a ute, and occasionally as the body of an email. Someone had to read each one, work out which property and which owner it belonged to, check it against the approved quote, and key it in for the bookkeeper. Five hours a week, every week, and the odd duplicate that got paid twice.
+
+## The numbers
+
+<table>
+  <tbody>
+    <tr><th>Admin time retired</th><td>About 5 hours a week</td></tr>
+    <tr><th>Value at A$45 an hour</th><td>Roughly A$225 a week, or A$10,800 a year</td></tr>
+    <tr><th>Duplicates and over-quote invoices</th><td>Caught before entry, not after payment</td></tr>
+    <tr><th>Build</th><td>Back-office Engine, Standard tier, A$1,800 ex GST, delivered in three weeks</td></tr>
+    <tr><th>Running cost</th><td>Under A$30 a month, self-run</td></tr>
+    <tr><th>Payback</th><td>About eight weeks</td></tr>
+  </tbody>
+</table>
+
+## What I built
+
+The Engine watches the maintenance inbox. Each invoice is read, whatever shape it arrives in, and the useful parts are pulled out: supplier, ABN, invoice number, date, amount, GST, and the property address or work order reference.
+
+It then matches the invoice to the work order the [Ops Engine](/lab/mcg-ops-engine-leases-and-maintenance) already knows about, and to the owner. Clean matches go into a draft batch. Anything odd gets a flag: amount above the approved quote, an address that does not match a managed property, an ABN that does not check out, or an invoice number that has been seen before.
+
+Once a week the bookkeeper receives the batch as a CSV in the format their software imports, plus a one page summary of everything flagged and why. They review, fix, and post. The Engine never posts anything itself.
+
+## What it deliberately does not do
+
+It does not touch the trust account. Trust accounting in NSW is regulated and audited, and the right design is one where a licensed human enters every transaction. The Engine prepares, the bookkeeper decides. It also does not pay anyone or talk to suppliers.
+
+## What changed since
+
+Two duplicate invoices were caught in the first month. Neither was malicious, both were a tradie resending from a different app, and both would have been paid. That paid for the build on its own before the time saving was counted.
+
+The flag rules started at three and are now nine, all written by the bookkeeper in plain language and translated into the Engine's config.
+
+---
+
+**Tools:** The maintenance inbox, Ops Engine work orders, OpenRouter for document reading, the bookkeeper's CSV import format, a worker on Vercel.

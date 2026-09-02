@@ -148,6 +148,14 @@ export default function SiteFooter() {
               </li>
               <li>
                 <Link
+                  href="/lab/mcg-sales-engine-portal-enquiries"
+                  className="transition-colors hover:text-ink-2"
+                >
+                  MCG Property Shoalhaven series
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/lab/building-the-control-centre-that-built-itself"
                   className="transition-colors hover:text-ink-2"
                 >

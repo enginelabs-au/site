@@ -1,0 +1,40 @@
+## The problem
+
+Landlords ring. Not often, but always for the same reasons: has the rent come in, what is happening with the maintenance, when is the next inspection, where is my statement. The property managers at MCG were spending about two hours a week answering questions that were already answered inside their systems, just not anywhere an owner could see.
+
+The principal had an idea for an owner portal and a quote for a full custom build that would have committed the agency before anyone knew whether landlords wanted it.
+
+## The numbers
+
+<table>
+  <tbody>
+    <tr><th>PM time retired</th><td>About 2 hours a week of owner status calls</td></tr>
+    <tr><th>Value at A$45 an hour</th><td>Roughly A$90 a week, or A$4,300 a year</td></tr>
+    <tr><th>Time to a working product</th><td>Clickable prototype in eight days, working MVP in four weeks</td></tr>
+    <tr><th>Build</th><td>Founder Engine, Standard tier, A$3,500 ex GST</td></tr>
+    <tr><th>Running cost</th><td>Under A$30 a month on the current owner count</td></tr>
+    <tr><th>Payback</th><td>About nine months on time alone, faster if you count the portal build it replaced</td></tr>
+  </tbody>
+</table>
+
+This is the one study in the series where the time saving is not the point. The point was finding out cheaply whether landlords would use the thing before committing real money.
+
+## What I built
+
+Week one was a clickable prototype and ten landlord conversations. The prototype had four screens: rent and arrears, maintenance status, inspections, statements. Nine of the ten owners said they would use it. Eight said the only screen that mattered was maintenance.
+
+So the MVP built one thing properly. An owner opens a link from their email, no password, and sees every maintenance job on their property as a timeline: reported, quoted, approved, booked, done, invoiced. The data was already there, produced by the [Ops Engine](/lab/mcg-ops-engine-leases-and-maintenance) and the [Back-office Engine](/lab/mcg-back-office-engine-trade-invoices). The portal just lets the owner see it.
+
+The handover included a three milestone roadmap: statements, then rent and arrears, then inspection reports. Each one is a scoped build with a price, and MCG can do them in any order or not at all.
+
+## What it deliberately does not do
+
+Owners cannot approve quotes in the portal yet. That was in the prototype and came out of the MVP, because approvals have a paper trail requirement and the property managers wanted to keep that conversation on email for now. It is milestone two on the roadmap if they change their minds.
+
+## What changed since
+
+The nine months of Engines before this one are what made a four week MVP possible. Every screen in the portal reads from data a previous Engine already cleaned up. That is the honest version of "iterative": each build made the next one smaller.
+
+---
+
+**Tools:** Next.js on Vercel, magic link login, the Postgres database shared with the Insight Engine, Ops and Back-office Engine data, Resend for owner emails.
