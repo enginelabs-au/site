@@ -23,7 +23,7 @@ The lapsed-lease side is real money too, but I have not put a figure on it. Vaca
 
 Three workflows, one run-book.
 
-The lease pipeline reads a weekly export from the property management system and works forward from every expiry date. At 90 days the PM gets a nudge with the tenancy history and current comparable rents. At 60 days a renewal notice is drafted for them to review and send. At 30 days anything still open is flagged in the Monday status email.
+The lease pipeline reads a weekly export from the property management system and works forward from every expiry date. At 90 days the PM gets a nudge with the tenancy history and current comparable rents. At 60 days a renewal notice is drafted from the office template and saved into the property's folder in OneDrive for them to review and send. At 30 days anything still open is flagged in the Monday status email.
 
 The maintenance chase watches every quote sent to a landlord for approval. If nothing comes back in 48 hours a polite reminder goes out. At 96 hours another one, and the PM is told. Urgent items skip the queue entirely and go straight to a phone call.
 
@@ -39,4 +39,4 @@ The first version only knew about leases. Maintenance approvals were added in we
 
 ---
 
-**Tools:** Property management system exports, Google Sheets as the working ledger, the office inbox and calendar, a scheduled worker on Vercel.
+**Tools:** Property management system exports, Google Sheets as the working ledger, OneDrive property folders, the office inbox and calendar, a scheduled worker on Vercel.

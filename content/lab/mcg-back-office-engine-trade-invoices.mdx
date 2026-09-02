@@ -19,7 +19,7 @@ Roughly 120 trade invoices a month come into MCG for maintenance across the rent
 
 The Engine watches the maintenance inbox. Each invoice is read, whatever shape it arrives in, and the useful parts are pulled out: supplier, ABN, invoice number, date, amount, GST, and the property address or work order reference.
 
-It then matches the invoice to the work order the [Ops Engine](/lab/mcg-ops-engine-leases-and-maintenance) already knows about, and to the owner. Clean matches go into a draft batch. Anything odd gets a flag: amount above the approved quote, an address that does not match a managed property, an ABN that does not check out, or an invoice number that has been seen before.
+It then matches the invoice to the work order the [Ops Engine](/lab/mcg-ops-engine-leases-and-maintenance) already knows about, and to the owner. Clean matches go into a draft batch, and the original invoice is filed into the right property folder in OneDrive with a sensible filename, which nobody had time to do before. Anything odd gets a flag: amount above the approved quote, an address that does not match a managed property, an ABN that does not check out, or an invoice number that has been seen before.
 
 Once a week the bookkeeper receives the batch as a CSV in the format their software imports, plus a one page summary of everything flagged and why. They review, fix, and post. The Engine never posts anything itself.
 
@@ -35,4 +35,4 @@ The flag rules started at three and are now nine, all written by the bookkeeper 
 
 ---
 
-**Tools:** The maintenance inbox, Ops Engine work orders, OpenRouter for document reading, the bookkeeper's CSV import format, a worker on Vercel.
+**Tools:** The maintenance inbox, Ops Engine work orders, OneDrive property folders, OpenRouter for document reading, the bookkeeper's CSV import format, a worker on Vercel.

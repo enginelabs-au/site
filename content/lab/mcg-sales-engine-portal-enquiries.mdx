@@ -1,6 +1,6 @@
 ## The problem
 
-MCG Property Shoalhaven runs sales and property management out of one office with fewer than ten people. Portal enquiries from realestate.com.au and Domain landed as emails, sat in the office inbox, and got keyed into Agentbox whenever an agent came up for air. Evening and weekend enquiries waited until the next morning. Two agents were each spending around five hours a week just reading, sorting and writing first replies.
+MCG Property Shoalhaven runs sales and property management out of one office with fewer than ten people. Enquiries from realestate.com.au, Domain and the contact forms on MCG's own website landed as emails, sat in the office inbox, and got keyed into Agentbox whenever an agent came up for air. Evening and weekend enquiries waited until the next morning. Two agents were each spending around five hours a week just reading, sorting and writing first replies.
 
 The buyer who enquired at 9pm on a Saturday had usually enquired on three other listings too. Whoever replied first got the conversation.
 
@@ -21,11 +21,11 @@ Hours are MCG's own, timed over three weeks before and three weeks after. Rates 
 
 ## What I built
 
-Every portal enquiry email is read the moment it arrives. The Engine pulls out the person, the listing, their message and any signals worth noticing: pre-approval mentioned, timeframe, whether they are a buyer, a tenant, a neighbour asking what the place went for, or an owner fishing for an appraisal.
+Every enquiry is read the moment it arrives, whether it came through a portal or the website. I had been looking after the MCG site already, so wiring its forms straight into the Engine instead of an inbox took an afternoon. The Engine pulls out the person, the listing, their message and any signals worth noticing: pre-approval mentioned, timeframe, whether they are a buyer, a tenant, a neighbour asking what the place went for, or an owner fishing for an appraisal.
 
 It then finds or creates the contact in Agentbox, attaches the enquiry to the right listing, and scores it against rules the agents wrote themselves. A short reply is drafted in the listed agent's own voice, with the next open home and a question that moves the conversation along.
 
-Nothing is sent by the Engine. The agent gets a notification, reads the draft, edits if they want, and sends from their own phone. Appraisal enquiries skip the buyer flow and go straight to the principal.
+Nothing is sent by the Engine. The agent gets a notification, reads the draft, edits if they want, and sends from their own phone. Appraisal enquiries skip the buyer flow and go straight to the principal with a Pricefinder snapshot of the property and recent sales in the street attached, so the first call is an informed one.
 
 Monday at 6am a pipeline digest lands in the inbox: enquiries by listing, unanswered conversations, and which sources were busiest.
 
@@ -41,4 +41,4 @@ This was the first Engine for MCG and the reason the rest of the series exists. 
 
 ---
 
-**Tools:** Agentbox, realestate.com.au and Domain enquiry feeds, the office inbox, OpenRouter, a small scheduled worker on Vercel.
+**Tools:** Agentbox, realestate.com.au and Domain enquiry feeds, MCG's website forms, Pricefinder, the office inbox, OpenRouter, a small scheduled worker on Vercel.

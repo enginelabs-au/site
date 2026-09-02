@@ -19,7 +19,7 @@ The numbers were always a week old by the time anyone acted on them.
 
 ## What I built
 
-Three data sources feed one dashboard: an Agentbox export, the rent roll export already produced for the [Ops Engine](/lab/mcg-ops-engine-leases-and-maintenance), and the portal enquiry counts the [Sales Engine](/lab/mcg-sales-engine-portal-enquiries) was already logging. Nothing new had to be typed in anywhere.
+Three data sources feed one dashboard: an Agentbox export, the rent roll export already produced for the [Ops Engine](/lab/mcg-ops-engine-leases-and-maintenance), and the enquiry counts from realestate.com.au, Domain and the MCG website that the [Sales Engine](/lab/mcg-sales-engine-portal-enquiries) was already logging. Pricefinder supplies the suburb sales context so days on market means something. Nothing new had to be typed in anywhere.
 
 The dashboard is filterable by agent, suburb and month. Sales sees listings, appraisals, enquiries and days on market. Property management sees arrears, vacancies, renewals due and maintenance spend by owner.
 
@@ -37,4 +37,4 @@ The written summary started life as the Monday status email from the Ops Engine.
 
 ---
 
-**Tools:** Agentbox exports, property management system exports, Sales Engine enquiry log, a small Postgres database, a Next.js dashboard on Vercel, OpenRouter for the weekly summary.
+**Tools:** Agentbox exports, property management system exports, Sales Engine enquiry log, Pricefinder, MCG website analytics, a small Postgres database, a Next.js dashboard on Vercel, OpenRouter for the weekly summary.
