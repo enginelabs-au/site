@@ -1,6 +1,6 @@
 ## The problem
 
-The property management inbox at MCG takes 60 to 80 emails a day. Maintenance requests, "when is my inspection", "how do I pay rent", "why is my statement late", tradies confirming times, and every so often a hot water system that has died on a Friday afternoon. Two property managers were each losing an hour and a half a day to triage and first replies, and the urgent ones were not always the ones that got read first.
+The property management Gmail at MCG takes 60 to 80 emails a day. Maintenance requests, "when is my inspection", "how do I pay rent", "why is my statement late", tradies confirming times, and every so often a hot water system that has died on a Friday afternoon. Two property managers were each losing an hour and a half a day to triage and first replies, and the urgent ones were not always the ones that got read first.
 
 ## The numbers
 
@@ -8,7 +8,7 @@ The property management inbox at MCG takes 60 to 80 emails a day. Maintenance re
   <tbody>
     <tr><th>PM time retired</th><td>About 10 hours a week across two property managers</td></tr>
     <tr><th>Value at A$45 an hour</th><td>Roughly A$450 a week, or A$21,600 a year</td></tr>
-    <tr><th>Urgent maintenance</th><td>Flagged and texted to the on-duty PM within two minutes</td></tr>
+    <tr><th>Urgent maintenance</th><td>On the on-duty PM's WhatsApp within two minutes</td></tr>
     <tr><th>Build</th><td>Support Engine, Standard tier, A$1,800 ex GST, delivered in three weeks</td></tr>
     <tr><th>Running cost</th><td>Under A$60 a month, self-run</td></tr>
     <tr><th>Payback</th><td>About four weeks</td></tr>
@@ -17,11 +17,11 @@ The property management inbox at MCG takes 60 to 80 emails a day. Maintenance re
 
 ## What I built
 
-Every email into the property management inbox is read, tagged and prioritised. Tags are the ones the team already used in their heads: urgent maintenance, routine maintenance, arrears, inspection, landlord, general, tradie.
+Every email into the property management Gmail is read, tagged and prioritised. Tags are the ones the team already used in their heads: urgent maintenance, routine maintenance, arrears, inspection, landlord, general, tradie.
 
-For anything routine the Engine drafts a reply from MCG's own material: the tenant handbook and office procedures in Google Drive, the forms on the MCG website, and the plain-English guidance NSW Fair Trading publishes. Every draft cites where it got the answer, so the PM can see it is quoting the handbook and not improvising. The PM reads, edits if needed, and sends with one click.
+For anything routine the Engine drafts a reply from MCG's own material: the tenant handbook and office procedures in Google Drive, the forms on the MCG website, and the plain-English guidance NSW Fair Trading publishes. Every draft cites where it got the answer, so the PM can see it is quoting the handbook and not improvising. The PM reads, edits if needed, and sends with one click. For the simplest category, rent payment and inspection time questions, the draft also goes to their WhatsApp so a Y from the car sends it without opening a laptop.
 
-Urgent maintenance has its own path. No hot water, water leaks, electrical faults, security issues. Those get flagged, the on-duty property manager is texted, and no draft is written because the right response is a phone call.
+Urgent maintenance has its own path. No hot water, water leaks, electrical faults, security issues. Those get flagged, the on-duty property manager gets a WhatsApp with the address, the tenant's number and the problem in one line, and no draft is written because the right response is a phone call.
 
 Friday afternoon a summary goes out: recurring issues, properties generating the most email, anything still waiting on a landlord.
 
@@ -35,4 +35,4 @@ The Friday summary turned out to be the most useful thing in the build. Three pr
 
 ---
 
-**Tools:** The property management inbox and website forms, MCG's tenant handbook and procedures in Google Drive, NSW Fair Trading public guidance, OpenRouter, Twilio for the urgent texts, a worker on Vercel.
+**Tools:** Gmail and the MCG website forms, MCG's tenant handbook and procedures in Google Drive, NSW Fair Trading public guidance, OpenRouter, WhatsApp for urgent alerts and quick approvals, a worker on Vercel.

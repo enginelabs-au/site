@@ -1,6 +1,6 @@
 ## The problem
 
-MCG Property Shoalhaven runs sales and property management out of one office with fewer than ten people. Enquiries from realestate.com.au, Domain and the contact forms on MCG's own website landed as emails, sat in the office inbox, and got keyed into Agentbox whenever an agent came up for air. Evening and weekend enquiries waited until the next morning. Two agents were each spending around five hours a week just reading, sorting and writing first replies.
+MCG Property Shoalhaven runs sales and property management out of one office with fewer than ten people. Enquiries from realestate.com.au, Domain and the contact forms on MCG's own website landed in each agent's Gmail, sat there, and got keyed into Agentbox whenever an agent came up for air. Evening and weekend enquiries waited until the next morning. Two agents were each spending around five hours a week just reading, sorting and writing first replies.
 
 The buyer who enquired at 9pm on a Saturday had usually enquired on three other listings too. Whoever replied first got the conversation.
 
@@ -25,13 +25,13 @@ Every enquiry is read the moment it arrives, whether it came through a portal or
 
 It then finds or creates the contact in Agentbox, attaches the enquiry to the right listing, and scores it against rules the agents wrote themselves. A short reply is drafted in the listed agent's own voice, with the next open home and a question that moves the conversation along.
 
-Nothing is sent by the Engine. The agent gets a notification, reads the draft, edits if they want, and sends from their own phone. Appraisal enquiries skip the buyer flow and go straight to the principal with a Pricefinder snapshot of the property and recent sales in the street attached, so the first call is an informed one.
+The draft is saved in the agent's own Gmail, and at the same time a short WhatsApp message lands on their phone: who enquired, which listing, the score, and the draft in three or four lines. Reply Y and the Engine sends it from their Gmail. Reply N and it holds the draft and asks what to change, then rewrites it. Most approvals take under a minute from wherever the agent happens to be standing, which is usually a driveway. Appraisal enquiries skip the buyer flow and go straight to the principal with a Pricefinder snapshot of the property and recent sales in the street attached, so the first call is an informed one.
 
 Monday at 6am a pipeline digest lands in the inbox: enquiries by listing, unanswered conversations, and which sources were busiest.
 
 ## What it deliberately does not do
 
-It never sends a message on an agent's behalf. It does not text people. It does not touch contract or settlement stages in Agentbox. Those were the first three things I wrote into the scope, because a real estate agency lives or dies on trust and I wanted the humans to stay visibly in the loop.
+It never sends a message the agent has not said Y to. It does not text buyers. It does not touch contract or settlement stages in Agentbox. Those were the first three things I wrote into the scope, because a real estate agency lives or dies on trust and I wanted the humans to stay visibly in the loop.
 
 ## What changed since
 
@@ -41,4 +41,4 @@ This was the first Engine for MCG and the reason the rest of the series exists. 
 
 ---
 
-**Tools:** Agentbox, realestate.com.au and Domain enquiry feeds, MCG's website forms, Pricefinder, the office inbox, OpenRouter, a small scheduled worker on Vercel.
+**Tools:** Agentbox, realestate.com.au and Domain enquiry feeds, MCG's website forms, Pricefinder, Gmail, WhatsApp for the Y or N loop, OpenRouter, a small scheduled worker on Vercel.

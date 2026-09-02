@@ -21,13 +21,13 @@ I have not counted listings won. Attributing a listing to one email in a market 
 
 Three segments come out of Agentbox each week: past appraisals by month since the appraisal, settled buyers reaching their first anniversary, and landlords approaching a rent review. Before anyone is drafted for, the Engine checks their contact preferences in Agentbox and the unsubscribe list. No consent, no draft.
 
-Drafts are personal in the way a good agent's email is personal. They mention the property, what has sold nearby since according to Pricefinder, and one genuine reason to get in touch. If someone replies asking for an updated appraisal, the agent gets a Realtair proposal pre-filled with the property and comparables so the follow-through is quick. They go into a queue for the agent to read. Sends are throttled to a sensible daily number so the agency never looks like a mail-out.
+Drafts are personal in the way a good agent's email is personal. They mention the property, what has sold nearby since according to Pricefinder, and one genuine reason to get in touch. If someone replies asking for an updated appraisal, the agent gets a Realtair proposal pre-filled with the property and comparables so the follow-through is quick. Each morning the agent gets one WhatsApp: today's five drafts, one line each. Y sends them all from the agent's own Gmail, spaced out through the day. N holds them. A number pulls that one out and the Engine asks why, so the next batch is better. Sends are throttled to a sensible daily number so the agency never looks like a mail-out.
 
-Every reply is routed straight to the agent's inbox and logged against the contact in Agentbox. The Engine never replies.
+Every reply lands in the agent's Gmail and is logged against the contact in Agentbox. The Engine never replies.
 
 ## What it deliberately does not do
 
-No cold lists. No scraped data. No text messages without express consent. No sending on an agent's behalf. The compliance setup is why this Engine costs more than the [Sales Engine](/lab/mcg-sales-engine-portal-enquiries) and why I would not build it any other way.
+No cold lists. No scraped data. No text messages without express consent. No sending without that morning's Y. The compliance setup is why this Engine costs more than the [Sales Engine](/lab/mcg-sales-engine-portal-enquiries) and why I would not build it any other way.
 
 ## What changed since
 
@@ -35,4 +35,4 @@ The repeat-enquirer rule from the Sales Engine is what prompted this build. Once
 
 ---
 
-**Tools:** Agentbox contacts and preferences, Pricefinder sales data, Realtair proposals, OpenRouter for drafting, Resend for throttled sending, a worker on Vercel.
+**Tools:** Agentbox contacts and preferences, Pricefinder sales data, Realtair proposals, OpenRouter for drafting, Gmail for throttled sending, WhatsApp for the morning approval, a worker on Vercel.
