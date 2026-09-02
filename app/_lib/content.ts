@@ -113,6 +113,7 @@ const LAB_POST_META_BY_SLUG: Record<
       "Case study — this site, shipped in under 24 hours for under A$50.",
     date_published: "2026-05-19",
     engine: "founder",
+    client: "Engine Labs, Sydney",
     verticals: [
       "founders",
       "agencies",
