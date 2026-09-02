@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { listLabPosts } from "@/app/_lib/content";
+import { formatDateAU, listLabPosts } from "@/app/_lib/content";
 import MotionSection from "@/app/_components/MotionSection";
 import { labMdxComponents } from "@/app/_components/typography";
 import {
@@ -77,7 +77,9 @@ export default async function LabPostPage({
           </h1>
           <p className="mt-6 text-xs text-ink-3">
             By Cam Douglas
-            {post.date_published ? ` · ${post.date_published}` : ""}
+            {post.date_published
+              ? ` · ${formatDateAU(post.date_published)}`
+              : ""}
             {post.read_time_minutes
               ? ` · ${post.read_time_minutes} min read`
               : ""}

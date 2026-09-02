@@ -110,10 +110,10 @@ const LAB_POST_META_BY_SLUG: Record<
   "building-the-control-centre-that-built-itself": {
     title: "Building the Control Centre that built itself",
     subtitle:
-      "Case study — this site, shipped in under 24 hours for under A$50.",
+      "Case study: this site, built for Engine Labs by Engine Labs, shipped in under 24 hours for under A$50.",
     date_published: "2026-05-19",
     engine: "founder",
-    client: "Engine Labs, Sydney",
+    client: "Engine Labs, Sydney (in-house)",
     verticals: [
       "founders",
       "agencies",
@@ -141,6 +141,18 @@ export type LabPostMeta = {
   read_time_minutes?: number;
   author?: string;
 };
+
+/** Renders an ISO date (YYYY-MM-DD) as day month year, e.g. "19 May 2026". */
+export function formatDateAU(iso: string): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  if (!y || !m || !d) return iso;
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString("en-AU", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
 
 export async function listLabPosts(): Promise<LabPostMeta[]> {
   const dir = path.join(CONTENT_ROOT, "lab");

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { listLabPosts } from "@/app/_lib/content";
+import { formatDateAU, listLabPosts } from "@/app/_lib/content";
 import MotionSection from "@/app/_components/MotionSection";
 import { SentencePara } from "@/app/_components/typography";
 import { JsonLd, breadcrumbSchema } from "@/app/_lib/json-ld";
@@ -71,7 +71,8 @@ export default async function LabIndexPage() {
                   ) : null}
                   <div className="mt-auto flex items-center justify-between gap-3 pt-3 text-xs text-ink-3">
                     <span>
-                      By Cam Douglas · {p.date_published ?? "draft"}
+                      By Cam Douglas ·{" "}
+                      {p.date_published ? formatDateAU(p.date_published) : "draft"}
                       {p.read_time_minutes
                         ? ` · ${p.read_time_minutes} min read`
                         : ""}
