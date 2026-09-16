@@ -220,7 +220,8 @@ function SectionPricing() {
 
       <SentencePara className={`mt-4 text-[0.85rem] leading-relaxed ${shell.muted}`}>
         The Control Centre will give you a band — not a fixed quote — and we will
-        confirm the final SOW before any work begins. GST exclusive unless stated.
+        confirm the final SOW before any work begins. Prices are in AUD. Engine
+        Labs is not currently registered for GST; no GST is charged.
       </SentencePara>
     </article>
   );

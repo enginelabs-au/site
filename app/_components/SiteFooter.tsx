@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ENGINES } from "@/app/_lib/engines";
 import FooterCurrencyNote from "@/app/_components/FooterCurrencyNote";
 import LogoMark from "@/app/_components/LogoMark";
+import { LEGAL_ENTITY_DISCLOSURE } from "@/app/_lib/legal-copy";
 
 export default function SiteFooter() {
   return (
@@ -205,8 +206,7 @@ export default function SiteFooter() {
 
             <div className="mt-8 text-xs text-ink-3 sm:flex sm:items-start sm:justify-between sm:gap-8">
               <p className="max-w-3xl leading-relaxed">
-                © 2026 Engine Labs. Engine Labs is an Australian sole trader trading as Cam
-                Douglas (ABN 13 141 459 638), governed by the laws of New South Wales. Based
+                © 2026 Engine Labs. {LEGAL_ENTITY_DISCLOSURE} Based
                 in Sydney.
               </p>
               <FooterCurrencyNote />

@@ -81,7 +81,8 @@ export default function ContactPage() {
             <ContactSendForm className="mt-8" />
           </ContactSectionAnchor>
           <p className="mt-10 text-sm text-ink-3">
-            Based in Sydney, NSW. GST exclusive unless stated on any quote we send. Public
+            Based in Sydney, NSW. Prices are in AUD. Engine Labs is not currently
+            registered for GST; no GST is charged. Public
             contact:{" "}
             <a
               href="mailto:hello@enginelabs.com.au"

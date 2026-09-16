@@ -21,9 +21,8 @@ export default function PrivacyPage() {
             can ask us to delete.
           </p>
           <p className="mt-4 text-xs text-ink-3">
-            Not legal advice. Engine Labs is an Australian sole
-            trader trading as Cam Douglas (ABN 13 141 459 638), governed by
-            the laws of New South Wales.
+            Not legal advice. Campbell John Douglas trading as Engine Labs
+            (ABN 13 141 459 638), governed by the laws of New South Wales.
           </p>
         </div>
       </section>
@@ -121,9 +120,8 @@ export default function PrivacyPage() {
               </a>
             </p>
             <p className="text-sm text-ink-3">
-              Engine Labs is an Australian sole trader trading as Cam Douglas
-              (ABN 13 141 459 638), governed by the laws of New South Wales,
-              Australia.
+              Campbell John Douglas trading as Engine Labs (ABN 13 141 459 638),
+              governed by the laws of New South Wales, Australia.
             </p>
           </div>
         </div>

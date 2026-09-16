@@ -35,7 +35,7 @@ export function organizationSchema(siteUrl: string = getSiteUrl()) {
     "@type": "Organization",
     "@id": organizationId(siteUrl),
     name: "Engine Labs",
-    legalName: "Cam Douglas trading as Engine Labs",
+    legalName: "Campbell John Douglas trading as Engine Labs",
     url: siteUrl,
     logo: {
       "@type": "ImageObject",

@@ -59,7 +59,7 @@ export const COMPARE_PAGES: ComparePage[] = [
         attribute: "Pricing model",
         optionA: "Hourly or monthly retainer for time.",
         optionB:
-          "Fixed price per Engine, scoped in the Control Centre. Bands from A$450 to A$8,500 AUD, GST exclusive unless stated.",
+          "Fixed price per Engine, scoped in the Control Centre. Bands from A$450 to A$8,500 AUD. Engine Labs is not currently registered for GST; no GST is charged.",
       },
       {
         attribute: "Timeline",
@@ -97,7 +97,7 @@ export const COMPARE_PAGES: ComparePage[] = [
       },
       {
         q: "How is Engine Labs pricing different from a VA retainer?",
-        a: "Engine Labs is a fixed price per Engine, scoped in the Control Centre, with starting bands from A$450 to A$8,500 AUD GST exclusive. A VA retainer is recurring hours. Engine Labs is build-once; optional Support plans (Basic Care, Standard Care, Priority Care) are separate.",
+        a: "Engine Labs is a fixed price per Engine, scoped in the Control Centre, with starting bands from A$450 to A$8,500 AUD. Engine Labs is not currently registered for GST; no GST is charged. A VA retainer is recurring hours. Engine Labs is build-once; optional Support plans (Basic Care, Standard Care, Priority Care) are separate.",
       },
       {
         q: "Can a VA also use the Engine?",
@@ -133,7 +133,7 @@ export const COMPARE_PAGES: ComparePage[] = [
         attribute: "Pricing model",
         optionA: "Hourly or per-zap consulting fees.",
         optionB:
-          "Fixed price per Engine, scoped in the Control Centre. Bands published in AUD, GST exclusive unless stated.",
+          "Fixed price per Engine, scoped in the Control Centre. Bands published in AUD. Engine Labs is not currently registered for GST; no GST is charged.",
       },
       {
         attribute: "Timeline",
@@ -205,7 +205,7 @@ export const COMPARE_PAGES: ComparePage[] = [
         attribute: "Pricing model",
         optionA: "Hourly, retainer or custom project fee.",
         optionB:
-          "Published price bands per Engine in AUD, GST exclusive unless stated. Workshop fee credited against the final fee if you proceed.",
+          "Published price bands per Engine in AUD. Engine Labs is not currently registered for GST; no GST is charged. Workshop fee credited against the final fee if you proceed.",
       },
       {
         attribute: "Timeline",
@@ -239,7 +239,7 @@ export const COMPARE_PAGES: ComparePage[] = [
     faqs: [
       {
         q: "Why is Engine Labs cheaper than most AI agencies?",
-        a: "Because the catalog is productised. The Engines have published spec sheets, the scope is defined up-front in the Control Centre, and the price bands are visible before any conversation. Pricing runs from A$450 to A$8,500 AUD GST exclusive depending on Engine and tier.",
+        a: "Because the catalog is productised. The Engines have published spec sheets, the scope is defined up-front in the Control Centre, and the price bands are visible before any conversation. Pricing runs from A$450 to A$8,500 AUD depending on Engine and tier. Engine Labs is not currently registered for GST; no GST is charged.",
       },
       {
         q: "Will Engine Labs take on a long custom build?",

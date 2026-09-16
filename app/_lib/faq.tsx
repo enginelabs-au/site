@@ -297,7 +297,8 @@ export const FULL_FAQ: { heading: string; items: FAQItem[] }[] = [
         q: "How do you bill?",
         a: (
           <>
-            Stripe AU, AUD, GST exclusive unless stated. Payment Links sent
+            Stripe AU. Prices are in AUD. Engine Labs is not currently
+            registered for GST; no GST is charged. Payment Links sent
             by email per milestone. Smaller builds: deposit + final. Larger
             builds: deposit + milestone + final. (Pricing §7.)
           </>

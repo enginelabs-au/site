@@ -89,8 +89,9 @@ export default async function EnginePage({
                 {engine.oneLiner} It replaces {engine.replaces.replace(/\.$/, "")}
                 , and the AI workflow automation build ships in {engine.timeline}.
                 Starting price band: A${engine.priceFrom.toLocaleString("en-AU")}–A$
-                {engine.priceTo.toLocaleString("en-AU")} AUD, GST exclusive
-                unless stated, scoped in the Control Centre for small
+                {engine.priceTo.toLocaleString("en-AU")} AUD. Engine Labs is
+                not currently registered for GST; no GST is charged. Scoped in
+                the Control Centre for small
                 businesses and founder-led teams in Australia.
               </SentencePara>
               <div className="mt-8">

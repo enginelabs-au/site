@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LEGAL_ENTITY_LINE } from "@/app/_lib/legal-copy";
 
 /**
  * Plain factual rundown rendered as a definition list near the top of /.
@@ -12,7 +13,7 @@ const FACTS: { term: string; detail: string }[] = [
   },
   {
     term: "Operator",
-    detail: "Cam Douglas (sole trader)",
+    detail: LEGAL_ENTITY_LINE,
   },
   {
     term: "Catalog",
@@ -20,7 +21,8 @@ const FACTS: { term: string; detail: string }[] = [
   },
   {
     term: "Pricing",
-    detail: "Published bands in AUD, GST exclusive unless stated",
+    detail:
+      "Published bands in AUD. Engine Labs is not currently registered for GST; no GST is charged",
   },
   {
     term: "Typical timeline",
@@ -48,7 +50,7 @@ const TRACK_RECORD: { term: string; detail: string }[] = [
   },
   {
     term: "Total build spend",
-    detail: "A$16,900 ex GST for all eight Engines, under A$260 a month to run",
+    detail: "A$16,900 AUD for all eight Engines, under A$260 a month to run",
   },
   {
     term: "Fastest payback",

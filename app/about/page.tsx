@@ -10,6 +10,7 @@ import {
   personCamSchema,
 } from "@/app/_lib/json-ld";
 import { getSiteUrl } from "@/app/_lib/site-url";
+import { LEGAL_ENTITY_DISCLOSURE } from "@/app/_lib/legal-copy";
 
 export const metadata: Metadata = {
   title: "About Engine Labs — one operator, one catalog",
@@ -103,8 +104,10 @@ export default function AboutPage() {
             </SentencePara>
             <SentencePara>
               <strong>Confidentiality is contractual.</strong> Client work stays
-              confidential unless explicitly disclosed. The Lab posts are synthetic
-              builds Engine Labs fully owns — never client work in disguise.
+              confidential unless explicitly disclosed. The Lab includes named
+              client studies — including the MCG Property Shoalhaven series — plus
+              Engine Labs&apos; own public builds. Those client write-ups are
+              disclosed client work, not synthetic case studies.
             </SentencePara>
 
             <h2>The boilerplate</h2>
@@ -145,8 +148,7 @@ export default function AboutPage() {
       <section className="border-t border-border bg-paper-2">
         <div className="mx-auto max-w-3xl px-4 py-12">
           <p className="text-xs leading-relaxed text-ink-3">
-            Engine Labs is an Australian sole trader trading as Cam Douglas
-            (ABN 13 141 459 638), governed by the laws of New South Wales.
+            {LEGAL_ENTITY_DISCLOSURE}
             Public contact: hello@enginelabs.com.au.
           </p>
         </div>
