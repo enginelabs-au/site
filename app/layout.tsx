@@ -7,6 +7,7 @@ import ScrollProgressBar, {
 } from "@/app/_components/ScrollProgressBar";
 import SiteHeader from "@/app/_components/SiteHeader";
 import SiteFooter from "@/app/_components/SiteFooter";
+import ChromeGate from "@/app/_components/ChromeGate";
 import ThemeProvider from "@/app/_components/ThemeProvider";
 import { CurrencyProvider } from "@/app/_components/CurrencyProvider";
 import GoogleAnalytics from "@/app/_components/GoogleAnalytics";
@@ -91,9 +92,13 @@ export default function RootLayout({
           <CurrencyProvider>
             <ScrollProgressBar />
             <HashScrollHandler />
-            <SiteHeader barOffset={SCROLL_PROGRESS_BAR_HEIGHT} />
+            <ChromeGate>
+              <SiteHeader barOffset={SCROLL_PROGRESS_BAR_HEIGHT} />
+            </ChromeGate>
             <main className="flex-1">{children}</main>
-            <SiteFooter />
+            <ChromeGate>
+              <SiteFooter />
+            </ChromeGate>
           </CurrencyProvider>
         </ThemeProvider>
       </body>
