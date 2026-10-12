@@ -22,9 +22,8 @@ export default function TermsPage() {
             the MSA wins.
           </p>
           <p className="mt-4 text-xs text-ink-3">
-            Not legal advice. Engine Labs is an Australian sole
-            trader trading as Cam Douglas (ABN 13 141 459 638), governed by
-            the laws of New South Wales.
+            Not legal advice. Campbell John Douglas trading as Engine Labs
+            (ABN 13 141 459 638), governed by the laws of New South Wales.
           </p>
         </div>
       </section>
@@ -74,7 +73,8 @@ export default function TermsPage() {
 
             <h2>Payment terms</h2>
             <p>
-              Stripe AU. AUD. GST exclusive unless stated. Payment Links
+              Stripe AU. Prices are in AUD. Engine Labs is not currently
+              registered for GST; no GST is charged. Payment Links
               issued per milestone. Default deposit 30%; final payment due on
               acceptance. Builds over A$2,500 use milestone billing per the
               SOW.
@@ -139,9 +139,8 @@ export default function TermsPage() {
               .
             </p>
             <p className="text-[0.92rem] text-ink-3">
-              Engine Labs is an Australian sole trader trading as Cam Douglas
-              (ABN 13 141 459 638), governed by the laws of New South Wales,
-              Australia.
+              Campbell John Douglas trading as Engine Labs (ABN 13 141 459 638),
+              governed by the laws of New South Wales, Australia.
             </p>
           </div>
         </div>

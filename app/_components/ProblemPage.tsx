@@ -132,8 +132,9 @@ export default function ProblemPage({ page }: { page: ProblemPageData }) {
           <SentencePara className="mt-3 text-base leading-relaxed text-ink-2">
             The {engine.name} price band runs from A$
             {engine.priceFrom.toLocaleString("en-AU")} to A$
-            {engine.priceTo.toLocaleString("en-AU")} AUD, GST exclusive unless
-            stated, scoped in the Control Centre. See the{" "}
+            {engine.priceTo.toLocaleString("en-AU")} AUD. Engine Labs is not
+            currently registered for GST; no GST is charged. Scoped in the
+            Control Centre. See the{" "}
             <Link
               href="/pricing"
               className="text-foreground underline decoration-1 underline-offset-4 transition-colors hover:text-brand"

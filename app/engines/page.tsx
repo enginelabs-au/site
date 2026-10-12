@@ -77,7 +77,8 @@ export default function EnginesIndexPage() {
             handover pack. The catalog is built for small businesses,
             agencies and founder-led teams in Australia; price bands run
             from A${minFrom.toLocaleString("en-AU")} to A$
-            {maxTo.toLocaleString("en-AU")}, GST exclusive unless stated.
+            {maxTo.toLocaleString("en-AU")}. Engine Labs is not currently
+            registered for GST; no GST is charged.
             Stack Engines together if you need to — the Control Centre tells
             you which combination fits your brief.
           </SentencePara>

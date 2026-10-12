@@ -102,7 +102,7 @@ export const PROBLEM_PAGES: ProblemPage[] = [
       },
       {
         q: "How much does AI lead response automation cost?",
-        a: "The Sales Engine price band runs from A$650 to A$5,500 AUD, GST exclusive unless stated. Basic is single-channel intake on a single CRM; Premium covers multi-channel with multi-rule scoring, enrichment and a documented prompt library. Scoped in the Control Centre.",
+        a: "The Sales Engine price band runs from A$650 to A$5,500 AUD. Engine Labs is not currently registered for GST; no GST is charged. Basic is single-channel intake on a single CRM; Premium covers multi-channel with multi-rule scoring, enrichment and a documented prompt library. Scoped in the Control Centre.",
       },
       {
         q: "What CRMs and inbox tools does it integrate with?",
@@ -160,7 +160,7 @@ export const PROBLEM_PAGES: ProblemPage[] = [
       },
       {
         q: "How much does AI support ticket triage cost?",
-        a: "The Support Engine price band runs from A$650 to A$4,500 AUD, GST exclusive unless stated. Basic is one inbox with RAG on one doc set; Premium is multi-inbox, multi-doc-set RAG with custom tone training and a summary dashboard.",
+        a: "The Support Engine price band runs from A$650 to A$4,500 AUD. Engine Labs is not currently registered for GST; no GST is charged. Basic is one inbox with RAG on one doc set; Premium is multi-inbox, multi-doc-set RAG with custom tone training and a summary dashboard.",
       },
       {
         q: "How does the AI know my tone of voice?",
@@ -214,7 +214,7 @@ export const PROBLEM_PAGES: ProblemPage[] = [
       },
       {
         q: "How much does it cost?",
-        a: "The Ops Engine price band runs from A$650 to A$5,500 AUD, GST exclusive unless stated. Basic is one workflow on one tool; Premium covers up to six workflows across multiple tools with a documented run-book.",
+        a: "The Ops Engine price band runs from A$650 to A$5,500 AUD. Engine Labs is not currently registered for GST; no GST is charged. Basic is one workflow on one tool; Premium covers up to six workflows across multiple tools with a documented run-book.",
       },
       {
         q: "What about sensitive routing like terminations or large refunds?",
@@ -264,7 +264,7 @@ export const PROBLEM_PAGES: ProblemPage[] = [
       },
       {
         q: "What does AI reporting dashboard automation cost?",
-        a: "The Insight Engine price band runs from A$450 to A$3,500 AUD, GST exclusive unless stated. Basic is a single data source with a static dashboard; Premium covers up to four sources with a full dashboard, AI summary, anomaly alerts and documented metric definitions.",
+        a: "The Insight Engine price band runs from A$450 to A$3,500 AUD. Engine Labs is not currently registered for GST; no GST is charged. Basic is a single data source with a static dashboard; Premium covers up to four sources with a full dashboard, AI summary, anomaly alerts and documented metric definitions.",
       },
       {
         q: "Which dashboards and data sources are supported?",
@@ -319,7 +319,7 @@ export const PROBLEM_PAGES: ProblemPage[] = [
       },
       {
         q: "How much does an AI MVP prototype builder engagement cost?",
-        a: "The Founder Engine price band runs from A$750 to A$8,500 AUD, GST exclusive unless stated. Basic is a clickable prototype only; Standard is a functional MVP with one core feature and a lightweight backend; Premium is a controlled multi-feature MVP with integrations, auth, payments and a documented roadmap.",
+        a: "The Founder Engine price band runs from A$750 to A$8,500 AUD. Engine Labs is not currently registered for GST; no GST is charged. Basic is a clickable prototype only; Standard is a functional MVP with one core feature and a lightweight backend; Premium is a controlled multi-feature MVP with integrations, auth, payments and a documented roadmap.",
       },
       {
         q: "How fast can a prototype ship?",
@@ -377,7 +377,7 @@ export const PROBLEM_PAGES: ProblemPage[] = [
       },
       {
         q: "How much does an AI internal knowledge base chatbot cost?",
-        a: "The Knowledge Engine price band runs from A$650 to A$4,500 AUD, GST exclusive unless stated. Basic is one doc source over web chat; Premium covers multi-source ingestion with access controls, a custom chat UI and full reporting.",
+        a: "The Knowledge Engine price band runs from A$650 to A$4,500 AUD. Engine Labs is not currently registered for GST; no GST is charged. Basic is one doc source over web chat; Premium covers multi-source ingestion with access controls, a custom chat UI and full reporting.",
       },
       {
         q: "Can it be made public-facing for customers?",
@@ -431,7 +431,7 @@ export const PROBLEM_PAGES: ProblemPage[] = [
       },
       {
         q: "How much does it cost?",
-        a: "The Back-office Engine price band runs from A$650 to A$3,500 AUD, GST exclusive unless stated. Basic is one source and one document type with CSV output; Premium covers multi-source with full flagging, a weekly summary and accuracy benchmarks.",
+        a: "The Back-office Engine price band runs from A$650 to A$3,500 AUD. Engine Labs is not currently registered for GST; no GST is charged. Basic is one source and one document type with CSV output; Premium covers multi-source with full flagging, a weekly summary and accuracy benchmarks.",
       },
       {
         q: "Can it pay invoices automatically?",
@@ -481,7 +481,7 @@ export const PROBLEM_PAGES: ProblemPage[] = [
       },
       {
         q: "Why is the starting price higher than other Engines?",
-        a: "Because compliance setup and consent verification are mandatory and non-trivial. The Outreach Engine price band runs from A$1,350 to A$4,500 AUD, GST exclusive unless stated.",
+        a: "Because compliance setup and consent verification are mandatory and non-trivial. The Outreach Engine price band runs from A$1,350 to A$4,500 AUD. Engine Labs is not currently registered for GST; no GST is charged.",
       },
       {
         q: "What outreach tools does the AI outreach drafting assistant integrate with?",

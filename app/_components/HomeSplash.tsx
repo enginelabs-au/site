@@ -39,7 +39,8 @@ export default function HomeSplash() {
             to the Back-office and Insight Engines — AI workflow
             automation for small businesses, agencies and founder-led teams
             across Australia. Pricing is published in AUD with bands from
-            A$450 to A$8,500, GST exclusive unless stated.
+            A$450 to A$8,500. Engine Labs is not currently registered for GST;
+            no GST is charged.
           </SentencePara>
         </div>
       </div>

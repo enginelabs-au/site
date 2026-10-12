@@ -1,3 +1,5 @@
+import { GST_NOT_CHARGED } from "@/app/_lib/legal-copy";
+
 /**
  * Display currencies. Base list prices are stored in AUD.
  * Rates are indicative for planning — not live FX.
@@ -57,4 +59,4 @@ export function formatPriceBand(
 }
 
 export const CURRENCY_DISCLAIMER =
-  "Converted amounts are indicative (base prices in AUD). GST exclusive unless stated.";
+  `Converted amounts are indicative (base prices in AUD). ${GST_NOT_CHARGED}`;

@@ -17,6 +17,7 @@ import {
   faqPageSchema,
 } from "@/app/_lib/json-ld";
 import { getSiteUrl } from "@/app/_lib/site-url";
+import { GST_PRICE_NOTE } from "@/app/_lib/legal-copy";
 
 export const metadata: Metadata = {
   title: "Engine Labs pricing — starting prices",
@@ -76,13 +77,7 @@ const SUPPORT_PLANS = [
 const PRICING_FAQ: FAQItem[] = [
   {
     q: "Is Engine Labs pricing GST inclusive?",
-    a: (
-      <>
-        No. Every price on this page is in Australian Dollars and GST
-        exclusive unless explicitly stated otherwise on a quote. GST is added
-        on the invoice as a separate line.
-      </>
-    ),
+    a: GST_PRICE_NOTE,
   },
   {
     q: "What currency are prices quoted in?",
@@ -179,15 +174,15 @@ export default function PricingPage() {
           <p className="eyebrow">Pricing</p>
           <h1 className="mt-4 text-balance text-[2.5rem] font-medium leading-[1.05] tracking-tight text-foreground md:text-[4rem]">
             Starting prices.{" "}
-            <span className="text-brand">GST exclusive unless stated.</span>
+            <span className="text-brand">In AUD. No GST is charged.</span>
           </h1>
           <SentencePara className="mt-6 max-w-3xl text-base leading-relaxed text-ink-2 md:text-lg">
             Engine Labs publishes price bands for every AI workflow
             automation Engine in AUD. The full catalog spans from{" "}
             <PricingAmount amountAud={minFrom} /> for the Basic tier of the
             Insight Engine to <PricingAmount amountAud={maxTo} /> for the
-            Premium tier of the Founder Engine. Pricing is GST exclusive
-            unless stated. Larger or unclear projects begin with a paid
+            Premium tier of the Founder Engine. Engine Labs is not currently
+            registered for GST; no GST is charged. Larger or unclear projects begin with a paid
             scoping workshop.
           </SentencePara>
           <p className="mt-4 text-sm text-ink-3">
@@ -416,7 +411,8 @@ export default function PricingPage() {
             Get my starting price in the Control Centre.
           </h2>
           <SentencePara className="mt-5 text-base leading-relaxed text-ink-2 md:text-lg">
-            GST exclusive unless stated. Base prices are in AUD; use the currency
+            Prices are in AUD. Engine Labs is not currently registered for GST;
+            no GST is charged. Use the currency
             selector to view indicative conversions.
             Third-party tool subscriptions (AI providers, integrations,
             hosting) are billed to you directly.

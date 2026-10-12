@@ -12,7 +12,7 @@ These appear in 5+ places. They are the only ones that can change *because* the 
 
 | Field | Value |
 |---|---|
-| Trading name | Cam Douglas (sole trader) |
+| Trading name | Campbell John Douglas trading as Engine Labs |
 | Business name | Engine Labs (being registered on the ABR) |
 | Entity type | Australian sole trader |
 | ABN | 13 141 459 638 |
@@ -145,7 +145,7 @@ Hero use. Also acceptable in social bios and ad copy.
 
 ### Australian voice signature line (footer)
 
-> Engine Labs is an Australian sole trader trading as Cam Douglas (ABN 13 141 459 638), governed by the laws of New South Wales.
+> Campbell John Douglas trading as Engine Labs (ABN 13 141 459 638), governed by the laws of New South Wales.
 
 ---
 

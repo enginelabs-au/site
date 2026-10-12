@@ -52,8 +52,9 @@ export function verticalFaqItems(v: Vertical): FAQItem[] {
       a: (
         <>
           The recommended {v.shortName} stack starts from A$
-          {stackMinPrice.toLocaleString("en-AU")} AUD per Engine (GST exclusive
-          unless stated), scoped in the Control Centre. See the{" "}
+          {stackMinPrice.toLocaleString("en-AU")} AUD per Engine. Engine Labs is
+          not currently registered for GST; no GST is charged. Scoped in the
+          Control Centre. See the{" "}
           <Link
             href="/pricing"
             className="text-foreground underline decoration-1 underline-offset-4 transition-colors hover:text-brand"
