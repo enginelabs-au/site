@@ -204,11 +204,24 @@ export default function SiteFooter() {
             </ul>
 
             <div className="mt-8 text-xs text-ink-3 sm:flex sm:items-start sm:justify-between sm:gap-8">
-              <p className="max-w-3xl leading-relaxed">
-                © 2026 Engine Labs. Engine Labs is an Australian sole trader trading as Cam
-                Douglas (ABN 13 141 459 638), governed by the laws of New South Wales. Based
-                in Sydney.
-              </p>
+              <div className="max-w-3xl leading-relaxed">
+                <p>
+                  © 2026 Engine Labs. Engine Labs is an Australian sole trader trading as Cam
+                  Douglas (ABN 13 141 459 638), governed by the laws of New South Wales. Based
+                  in Sydney.
+                </p>
+                <p className="mt-3">
+                  Built by{" "}
+                  <a
+                    href="https://camdouglas.com"
+                    rel="author noopener"
+                    className="text-ink-2 underline underline-offset-2 transition-colors hover:text-foreground"
+                  >
+                    Cam Douglas
+                  </a>
+                  .
+                </p>
+              </div>
               <FooterCurrencyNote />
             </div>
           </div>
