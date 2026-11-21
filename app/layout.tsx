@@ -11,6 +11,7 @@ import ChromeGate from "@/app/_components/ChromeGate";
 import ThemeProvider from "@/app/_components/ThemeProvider";
 import { CurrencyProvider } from "@/app/_components/CurrencyProvider";
 import GoogleAnalytics from "@/app/_components/GoogleAnalytics";
+import AnyTrack from "@/app/_components/AnyTrack";
 import SiteJsonLd from "@/app/_components/SiteJsonLd";
 import { getSiteUrl } from "@/app/_lib/site-url";
 
@@ -85,6 +86,7 @@ export default function RootLayout({
     >
       <head>
         <GoogleAnalytics />
+        <AnyTrack />
       </head>
       <body className="flex min-h-full flex-col overflow-x-clip bg-background text-foreground">
         <SiteJsonLd />

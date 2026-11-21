@@ -43,8 +43,8 @@ export default function PrivacyPage() {
                 — to email a brief copy back, or to receive Lab posts.
               </li>
               <li>
-                <strong>Basic analytics.</strong> Page views and referrer.
-                No third-party tracking pixels by default.
+                <strong>Basic analytics.</strong> Page views and referrer,
+                through Google Analytics and AnyTrack.
               </li>
             </ul>
 
@@ -94,7 +94,10 @@ export default function PrivacyPage() {
             </p>
 
             <h2>Cookies</h2>
-            <p>Essential only by default. No third-party tracking cookies.</p>
+            <p>
+              Essential cookies, plus analytics cookies from Google Analytics
+              and AnyTrack.
+            </p>
 
             <h2>Where data is stored</h2>
             <p>
